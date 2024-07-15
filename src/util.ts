@@ -219,6 +219,16 @@ export function serializeGuesses(gridData: GuessData) {
   return guesses;
 }
 
+export function loadGuessesFromDB(
+  gridData: GuessData,
+  guessesFromDB: Array<{ row: number; col: number; guess: string }>
+) {
+  guessesFromDB.forEach((g) => {
+    const { row, col, guess } = g;
+    (gridData[row][col] as UsedCellData).guess = guess;
+  });
+}
+
 export function loadGuesses(gridData: GuessData, storageKey: string) {
   const { localStorage } = window;
   if (!localStorage) {

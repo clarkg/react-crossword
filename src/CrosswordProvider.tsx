@@ -35,6 +35,7 @@ import {
   createGridData,
   isAcross,
   loadGuesses,
+  loadGuessesFromDB,
   otherDirection,
   saveGuesses,
 } from './util';
@@ -178,6 +179,8 @@ export type CrosswordProviderProps = EnhancedProps<
      * input format</a> for details.
      */
     data: CluesInput;
+
+    guessesFromDB?: Array<{ row: number; col: number; guess: string }>;
 
     /**
      * callback function that fires when a player completes an answer, whether
@@ -343,6 +346,7 @@ const CrosswordProvider = React.forwardRef<
       useStorage,
       storageKey,
       children,
+      guessesFromDB,
     },
     ref
   ) => {
@@ -812,7 +816,9 @@ const CrosswordProvider = React.forwardRef<
         down: masterClues.down.map((clue) => ({ ...clue })),
       };
 
-      if (useStorage) {
+      if (guessesFromDB && guessesFromDB.length > 0) {
+        loadGuessesFromDB(newGridData, guessesFromDB);
+      } else if (useStorage) {
         loadGuesses(newGridData, storageKey || defaultStorageKey);
       }
 
