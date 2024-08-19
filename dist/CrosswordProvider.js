@@ -319,7 +319,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             if (onCrosswordComplete) {
                 onCrosswordComplete(crosswordCorrect);
             }
-            if (onCrosswordCorrect) {
+            if (onCrosswordCorrect && crosswordCorrect) {
                 onCrosswordCorrect(crosswordCorrect);
             }
         }
@@ -387,9 +387,11 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
     }, [currentDirection, moveRelative]);
     // keyboard handling
     const handleSingleCharacter = (0, react_1.useCallback)((char) => {
-        setCellCharacter(focusedRow, focusedCol, char.toUpperCase());
-        moveForward();
-    }, [focusedRow, focusedCol, setCellCharacter, moveForward]);
+        if (!crosswordCorrect) {
+            setCellCharacter(focusedRow, focusedCol, char.toUpperCase());
+            moveForward();
+        }
+    }, [focusedRow, focusedCol, setCellCharacter, moveForward, crosswordCorrect]);
     // We use the keydown event for control/arrow keys, but not for textual
     // input, because it's hard to suss out when a key is "regular" or not.
     const handleInputKeyDown = (0, react_1.useCallback)((event) => {
@@ -527,13 +529,42 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             // simply use the row/col that starts each answer.
             newCluesData[dir].map(({ row, col }) => ({ row, col }))));
         }
-        // Should we start with 1-across highlighted/focused?
-        // TODO: track input-field focus so we don't draw highlight when we're not
-        // really focused, *and* use first actual clue (whether across or down?)
-        setFocusedRow(0);
-        setFocusedCol(0);
-        setCurrentDirection('across');
-        setCurrentNumber('1');
+        // Find the element with the lowest number in the 2D array newGridData
+        let lowestNumberCell = null;
+        for (let row = 0; row < newGridData.length; row++) {
+            for (let col = 0; col < newGridData[row].length; col++) {
+                const cell = newGridData[row][col];
+                if (cell.used && cell.number) {
+                    if (!lowestNumberCell || parseInt(cell.number) < parseInt(lowestNumberCell.number)) {
+                        lowestNumberCell = cell;
+                    }
+                }
+            }
+        }
+        // Set focus to the cell with the lowest number
+        if (lowestNumberCell) {
+            setFocusedRow(lowestNumberCell.row);
+            setFocusedCol(lowestNumberCell.col);
+            setCurrentNumber(lowestNumberCell.number);
+            // Find the direction of the clue corresponding to the lowestNumberCell number
+            let lowestNumberDirection = 'across';
+            const lowestNumber = lowestNumberCell.number;
+            // Check across clues first
+            const acrossClue = newCluesData.across.find(clue => clue.number === lowestNumber);
+            if (acrossClue) {
+                lowestNumberDirection = 'across';
+            }
+            else {
+                // If not found in across, check down clues
+                const downClue = newCluesData.down.find(clue => clue.number === lowestNumber);
+                if (downClue) {
+                    lowestNumberDirection = 'down';
+                }
+            }
+            // Set the current direction to the direction of the lowest numbered clue
+            setCurrentDirection(lowestNumberDirection);
+            focus();
+        }
     }, [masterClues, masterGridData, storageKey, useStorage]);
     // save the guesses any time they change...
     (0, react_1.useEffect)(() => {

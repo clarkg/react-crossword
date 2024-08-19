@@ -580,7 +580,7 @@ const CrosswordProvider = React.forwardRef<
         if (onCrosswordComplete) {
           onCrosswordComplete(crosswordCorrect);
         }
-        if (onCrosswordCorrect) {
+        if (onCrosswordCorrect && crosswordCorrect) {
           onCrosswordCorrect(crosswordCorrect);
         }
       }
@@ -667,10 +667,12 @@ const CrosswordProvider = React.forwardRef<
     // keyboard handling
     const handleSingleCharacter = useCallback(
       (char: string) => {
-        setCellCharacter(focusedRow, focusedCol, char.toUpperCase());
-        moveForward();
+        if (!crosswordCorrect) {
+          setCellCharacter(focusedRow, focusedCol, char.toUpperCase());
+          moveForward();
+        }
       },
-      [focusedRow, focusedCol, setCellCharacter, moveForward]
+      [focusedRow, focusedCol, setCellCharacter, moveForward, crosswordCorrect]
     );
 
     // We use the keydown event for control/arrow keys, but not for textual
@@ -845,14 +847,52 @@ const CrosswordProvider = React.forwardRef<
         );
       }
 
-      // Should we start with 1-across highlighted/focused?
+      // Find the element with the lowest number in the 2D array newGridData
+      let lowestNumberCell: UsedCellData | null = null;
+      for (let row = 0; row < newGridData.length; row++) {
+        for (let col = 0; col < newGridData[row].length; col++) {
+          const cell = newGridData[row][col];
+          if (cell.used && cell.number) {
+            if (
+              !lowestNumberCell ||
+              parseInt(cell.number, 10) < parseInt(lowestNumberCell.number!, 10)
+            ) {
+              lowestNumberCell = cell as UsedCellData;
+            }
+          }
+        }
+      }
 
-      // TODO: track input-field focus so we don't draw highlight when we're not
-      // really focused, *and* use first actual clue (whether across or down?)
-      setFocusedRow(0);
-      setFocusedCol(0);
-      setCurrentDirection('across');
-      setCurrentNumber('1');
+      // Set focus to the cell with the lowest number
+      if (lowestNumberCell) {
+        setFocusedRow(lowestNumberCell.row);
+        setFocusedCol(lowestNumberCell.col);
+        setCurrentNumber(lowestNumberCell.number!);
+
+        // Find the direction of the clue corresponding to the lowestNumberCell number
+        let lowestNumberDirection: Direction = 'across';
+        const lowestNumber = lowestNumberCell.number!;
+
+        // Check across clues first
+        const acrossClue = newCluesData.across.find(
+          (clue) => clue.number === lowestNumber
+        );
+        if (acrossClue) {
+          lowestNumberDirection = 'across';
+        } else {
+          // If not found in across, check down clues
+          const downClue = newCluesData.down.find(
+            (clue) => clue.number === lowestNumber
+          );
+          if (downClue) {
+            lowestNumberDirection = 'down';
+          }
+        }
+
+        // Set the current direction to the direction of the lowest numbered clue
+        setCurrentDirection(lowestNumberDirection);
+        focus();
+      }
     }, [masterClues, masterGridData, storageKey, useStorage]);
 
     // save the guesses any time they change...
