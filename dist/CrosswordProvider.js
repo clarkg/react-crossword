@@ -500,6 +500,14 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
     (0, react_1.useEffect)(() => {
         // deep-clone the grid data...
         const newGridData = masterGridData.map((row) => row.map((cell) => (Object.assign({}, cell))));
+        // Clear any existing guesses in the grid
+        newGridData.forEach(row => {
+            row.forEach(cell => {
+                if (cell.used) {
+                    cell.guess = undefined;
+                }
+            });
+        });
         // deep-clone the clue data...
         const newCluesData = {
             across: masterClues.across.map((clue) => (Object.assign({}, clue))),
@@ -535,7 +543,8 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             for (let col = 0; col < newGridData[row].length; col++) {
                 const cell = newGridData[row][col];
                 if (cell.used && cell.number) {
-                    if (!lowestNumberCell || parseInt(cell.number) < parseInt(lowestNumberCell.number)) {
+                    if (!lowestNumberCell ||
+                        parseInt(cell.number, 10) < parseInt(lowestNumberCell.number, 10)) {
                         lowestNumberCell = cell;
                     }
                 }
@@ -550,13 +559,13 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             let lowestNumberDirection = 'across';
             const lowestNumber = lowestNumberCell.number;
             // Check across clues first
-            const acrossClue = newCluesData.across.find(clue => clue.number === lowestNumber);
+            const acrossClue = newCluesData.across.find((clue) => clue.number === lowestNumber);
             if (acrossClue) {
                 lowestNumberDirection = 'across';
             }
             else {
                 // If not found in across, check down clues
-                const downClue = newCluesData.down.find(clue => clue.number === lowestNumber);
+                const downClue = newCluesData.down.find((clue) => clue.number === lowestNumber);
                 if (downClue) {
                     lowestNumberDirection = 'down';
                 }

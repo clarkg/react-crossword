@@ -811,6 +811,14 @@ const CrosswordProvider = React.forwardRef<
       const newGridData = masterGridData.map((row) =>
         row.map((cell) => ({ ...cell }))
       );
+      // Clear any existing guesses in the grid
+      newGridData.forEach((row) => {
+        row.forEach((cell) => {
+          if (cell.used) {
+            (cell as UsedCellData).guess = undefined;
+          }
+        });
+      });
 
       // deep-clone the clue data...
       const newCluesData: CluesData = {
