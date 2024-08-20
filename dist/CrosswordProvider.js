@@ -44,6 +44,7 @@ exports.crosswordProviderPropTypes = {
      * input format</a> for details.
      */
     data: types_1.cluesInputShapeOriginal.isRequired,
+    guessesFromDB: prop_types_1.default.array,
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: prop_types_1.default.shape({
         /**
@@ -74,6 +75,7 @@ exports.crosswordProviderPropTypes = {
     }),
     /** whether to use browser storage to persist the player's work-in-progress */
     useStorage: prop_types_1.default.bool,
+    allowMutation: prop_types_1.default.bool,
     /**
      * a custom storage key to use for persistence; defaults to "guesses" when not
      * provided
@@ -168,7 +170,7 @@ const defaultTheme = {
  *
  * @since 4.0
  */
-const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerComplete, onAnswerCorrect, onCorrect, onAnswerIncorrect, onLoadedCorrect, onCrosswordComplete, onCrosswordCorrect, onCellChange, onClueSelected, useStorage, storageKey, children, guessesFromDB, }, ref) => {
+const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerComplete, onAnswerCorrect, onCorrect, onAnswerIncorrect, onLoadedCorrect, onCrosswordComplete, onCrosswordCorrect, onCellChange, onClueSelected, useStorage, storageKey, allowMutation, children, guessesFromDB, }, ref) => {
     const contextTheme = (0, react_1.useContext)(styled_components_1.ThemeContext);
     // The final theme is the merger of three values: the "theme" property
     // passed to the component (which takes precedence), any values from
@@ -387,11 +389,11 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
     }, [currentDirection, moveRelative]);
     // keyboard handling
     const handleSingleCharacter = (0, react_1.useCallback)((char) => {
-        if (!crosswordCorrect) {
+        if (allowMutation) {
             setCellCharacter(focusedRow, focusedCol, char.toUpperCase());
             moveForward();
         }
-    }, [focusedRow, focusedCol, setCellCharacter, moveForward, crosswordCorrect]);
+    }, [focusedRow, focusedCol, setCellCharacter, moveForward, allowMutation]);
     // We use the keydown event for control/arrow keys, but not for textual
     // input, because it's hard to suss out when a key is "regular" or not.
     const handleInputKeyDown = (0, react_1.useCallback)((event) => {
@@ -432,7 +434,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             // Delete:    delete the current cell, but don't move
             case 'Backspace':
             case 'Delete': {
-                setCellCharacter(focusedRow, focusedCol, '');
+                if (allowMutation) {
+                    setCellCharacter(focusedRow, focusedCol, '');
+                }
                 if (key === 'Backspace') {
                     moveBackward();
                 }
@@ -482,6 +486,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         data,
         currentNumber,
         moveTo,
+        allowMutation,
     ]);
     const handleInputChange = (0, react_1.useCallback)((event) => {
         event.preventDefault();
@@ -501,8 +506,8 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         // deep-clone the grid data...
         const newGridData = masterGridData.map((row) => row.map((cell) => (Object.assign({}, cell))));
         // Clear any existing guesses in the grid
-        newGridData.forEach(row => {
-            row.forEach(cell => {
+        newGridData.forEach((row) => {
+            row.forEach((cell) => {
                 if (cell.used) {
                     cell.guess = undefined;
                 }
@@ -532,7 +537,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         // it is, this implementation can cause some answers to mentioned in
         // onCorrect() more than once (any time an across answer starts inside a
         // down answer, or vice versa.)
-        if (useStorage) {
+        if (useStorage || (guessesFromDB && guessesFromDB.length > 0)) {
             setCheckQueue(util_1.bothDirections.flatMap((dir) => 
             // simply use the row/col that starts each answer.
             newCluesData[dir].map(({ row, col }) => ({ row, col }))));
@@ -778,7 +783,8 @@ CrosswordProvider.displayName = 'CrosswordProvider';
 CrosswordProvider.propTypes = exports.crosswordProviderPropTypes;
 CrosswordProvider.defaultProps = {
     theme: undefined,
-    useStorage: true,
+    useStorage: false,
+    allowMutation: true,
     storageKey: undefined,
     onAnswerComplete: undefined,
     onAnswerCorrect: undefined,

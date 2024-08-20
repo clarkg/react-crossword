@@ -84,6 +84,8 @@ export const crosswordProviderPropTypes = {
   /** whether to use browser storage to persist the player's work-in-progress */
   useStorage: PropTypes.bool,
 
+  allowMutation: PropTypes.bool,
+
   /**
    * a custom storage key to use for persistence; defaults to "guesses" when not
    * provided
@@ -345,6 +347,7 @@ const CrosswordProvider = React.forwardRef<
       onClueSelected,
       useStorage,
       storageKey,
+      allowMutation,
       children,
       guessesFromDB,
     },
@@ -667,12 +670,12 @@ const CrosswordProvider = React.forwardRef<
     // keyboard handling
     const handleSingleCharacter = useCallback(
       (char: string) => {
-        if (!crosswordCorrect) {
+        if (allowMutation) {
           setCellCharacter(focusedRow, focusedCol, char.toUpperCase());
           moveForward();
         }
       },
-      [focusedRow, focusedCol, setCellCharacter, moveForward, crosswordCorrect]
+      [focusedRow, focusedCol, setCellCharacter, moveForward, allowMutation]
     );
 
     // We use the keydown event for control/arrow keys, but not for textual
@@ -727,7 +730,9 @@ const CrosswordProvider = React.forwardRef<
           // Delete:    delete the current cell, but don't move
           case 'Backspace':
           case 'Delete': {
-            setCellCharacter(focusedRow, focusedCol, '');
+            if (allowMutation) {
+              setCellCharacter(focusedRow, focusedCol, '');
+            }
             if (key === 'Backspace') {
               moveBackward();
             }
@@ -784,6 +789,7 @@ const CrosswordProvider = React.forwardRef<
         data,
         currentNumber,
         moveTo,
+        allowMutation,
       ]
     );
 
@@ -846,7 +852,7 @@ const CrosswordProvider = React.forwardRef<
       // it is, this implementation can cause some answers to mentioned in
       // onCorrect() more than once (any time an across answer starts inside a
       // down answer, or vice versa.)
-      if (useStorage) {
+      if (useStorage || (guessesFromDB && guessesFromDB.length > 0)) {
         setCheckQueue(
           bothDirections.flatMap((dir) =>
             // simply use the row/col that starts each answer.
@@ -1176,7 +1182,8 @@ CrosswordProvider.displayName = 'CrosswordProvider';
 CrosswordProvider.propTypes = crosswordProviderPropTypes;
 CrosswordProvider.defaultProps = {
   theme: undefined,
-  useStorage: true,
+  useStorage: false,
+  allowMutation: true,
   storageKey: undefined,
   onAnswerComplete: undefined,
   onAnswerCorrect: undefined,

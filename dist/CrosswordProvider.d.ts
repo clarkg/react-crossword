@@ -23,8 +23,9 @@ export declare const crosswordProviderPropTypes: {
                 row: PropTypes.Validator<number>;
                 col: PropTypes.Validator<number>;
             }>>;
-        }>; /**  background for an answer cell */
+        }>;
     }>>>;
+    guessesFromDB: PropTypes.Requireable<any[]>;
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         /**
@@ -55,6 +56,7 @@ export declare const crosswordProviderPropTypes: {
     }>>;
     /** whether to use browser storage to persist the player's work-in-progress */
     useStorage: PropTypes.Requireable<boolean>;
+    allowMutation: PropTypes.Requireable<boolean>;
     /**
      * a custom storage key to use for persistence; defaults to "guesses" when not
      * provided
@@ -268,8 +270,9 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
                 row: PropTypes.Validator<number>;
                 col: PropTypes.Validator<number>;
             }>>;
-        }>; /**  background for an answer cell */
+        }>;
     }>>>;
+    guessesFromDB: PropTypes.Requireable<any[]>;
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         /**
@@ -300,6 +303,7 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
     }>>;
     /** whether to use browser storage to persist the player's work-in-progress */
     useStorage: PropTypes.Requireable<boolean>;
+    allowMutation: PropTypes.Requireable<boolean>;
     /**
      * a custom storage key to use for persistence; defaults to "guesses" when not
      * provided
@@ -374,7 +378,7 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
      */
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
     children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
-}>, "data" | "onAnswerComplete" | "onAnswerCorrect" | "onCorrect" | "onAnswerIncorrect" | "onLoadedCorrect" | "onCrosswordComplete" | "onCrosswordCorrect" | "onCellChange" | "onClueSelected" | "guessesFromDB"> & {
+}>, "data" | "guessesFromDB" | "onAnswerComplete" | "onAnswerCorrect" | "onCorrect" | "onAnswerIncorrect" | "onLoadedCorrect" | "onCrosswordComplete" | "onCrosswordCorrect" | "onCellChange" | "onClueSelected"> & {
     /**
      * clue/answer data; see <a
      * href="#/Configuration%20and%20customization/Clue%20input%20format">Clue
