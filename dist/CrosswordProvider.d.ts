@@ -16,6 +16,7 @@ export declare const crosswordProviderPropTypes: {
                 col: PropTypes.Validator<number>;
             }>>;
         }>;
+        /**  background for an answer cell */
         down: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
                 clue: PropTypes.Validator<string>;
@@ -131,6 +132,7 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
                 col: PropTypes.Validator<number>;
             }>>;
         }>;
+        /**  background for an answer cell */
         down: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
                 clue: PropTypes.Validator<string>;

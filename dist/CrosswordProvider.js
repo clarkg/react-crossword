@@ -477,8 +477,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             setClues((0, immer_1.default)((draft) => {
                 util_1.bothDirections.forEach((direction) => {
                     var _a;
-                    (_a = draft === null || draft === void 0 ? void 0 : draft[direction]) === null || _a === void 0 ? void 0 : _a.forEach((clueInfo) => {
-                    });
+                    (_a = draft === null || draft === void 0 ? void 0 : draft[direction]) === null || _a === void 0 ? void 0 : _a.forEach((clueInfo) => clueInfo);
                 });
             }));
         },
@@ -491,11 +490,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             // REVIEW: should we force-case this?
             setCellCharacter(row, col, guess.toUpperCase());
         },
-    }), [
-        clues,
-        focus,
-        setCellCharacter,
-    ]);
+    }), [clues, focus, setCellCharacter]);
     const crosswordContext = (0, react_1.useMemo)(() => ({
         rows,
         cols,
