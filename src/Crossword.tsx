@@ -107,19 +107,6 @@ const Crossword = React.forwardRef<CrosswordImperative, CrosswordProps>(
         reset: () => providerRef.current?.reset(),
 
         /**
-         * Fills all the answers in the grid and calls the `onLoadedCorrect`
-         * callback with _**every**_ answer.
-         */
-        fillAllAnswers: () => providerRef.current?.fillAllAnswers(),
-
-        /**
-         * Returns whether the crossword is entirely correct or not.
-         *
-         * @since 2.2.0
-         */
-        isCrosswordCorrect: () => !!providerRef.current?.isCrosswordCorrect(),
-
-        /**
          * Sets the “guess” character for a specific grid position.
          *
          * @since 4.1.0

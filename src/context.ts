@@ -43,8 +43,6 @@ export interface CrosswordContextType {
   selectedPosition: GridPosition;
   selectedDirection: Direction;
   selectedNumber: string;
-
-  crosswordCorrect: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -73,8 +71,6 @@ export const CrosswordContext = React.createContext<CrosswordContextType>({
   selectedPosition: { row: 0, col: 0 },
   selectedDirection: 'across',
   selectedNumber: '',
-
-  crosswordCorrect: false,
 });
 
 export interface CrosswordSizeContextType {

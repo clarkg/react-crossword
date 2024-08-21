@@ -22,7 +22,7 @@ const directionCluesPropTypes = {
 };
 function DirectionClues({ direction, label, }) {
     const { clues } = (0, react_1.useContext)(context_1.CrosswordContext);
-    return ((0, jsx_runtime_1.jsxs)("div", Object.assign({ className: "direction" }, { children: [(0, jsx_runtime_1.jsx)("h3", Object.assign({ className: "header" }, { children: label || direction.toUpperCase() })), clues === null || clues === void 0 ? void 0 : clues[direction].map(({ number, clue, complete, correct }) => ((0, jsx_runtime_1.jsx)(Clue_1.default, Object.assign({ direction: direction, number: number, complete: complete, correct: correct }, { children: clue }), number)))] })));
+    return ((0, jsx_runtime_1.jsxs)("div", Object.assign({ className: "direction" }, { children: [(0, jsx_runtime_1.jsx)("h3", Object.assign({ className: "header" }, { children: label || direction.toUpperCase() })), clues === null || clues === void 0 ? void 0 : clues[direction].map(({ number, clue }) => ((0, jsx_runtime_1.jsx)(Clue_1.default, Object.assign({ direction: direction, number: number }, { children: clue }), number)))] })));
 }
 exports.default = DirectionClues;
 DirectionClues.propTypes = directionCluesPropTypes;

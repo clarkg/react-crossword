@@ -43,7 +43,7 @@ const prop_types_1 = __importDefault(require("prop-types"));
 const styled_components_1 = __importStar(require("styled-components"));
 const context_1 = require("./context");
 const ClueWrapper = styled_components_1.default.div.attrs((props) => ({
-    className: `clue${props.complete ? (props.correct ? ' correct' : ' incorrect') : ''}`,
+    className: `clue${''}`,
 })) `
   cursor: default;
   background-color: ${(props) => props.highlight ? props.highlightBackground : 'transparent'};
@@ -54,14 +54,14 @@ const ClueWrapper = styled_components_1.default.div.attrs((props) => ({
  * provide the highlighting color.
  */
 function Clue(_a) {
-    var { direction, number, children, complete, correct } = _a, props = __rest(_a, ["direction", "number", "children", "complete", "correct"]);
+    var { direction, number, children } = _a, props = __rest(_a, ["direction", "number", "children"]);
     const { highlightBackground } = (0, react_1.useContext)(styled_components_1.ThemeContext);
     const { focused, selectedDirection, selectedNumber, handleClueSelected } = (0, react_1.useContext)(context_1.CrosswordContext);
     const handleClick = (0, react_1.useCallback)((event) => {
         event.preventDefault();
         handleClueSelected(direction, number);
     }, [direction, number, handleClueSelected]);
-    return ((0, jsx_runtime_1.jsxs)(ClueWrapper, Object.assign({ highlightBackground: highlightBackground, highlight: focused && direction === selectedDirection && number === selectedNumber, complete: complete, correct: correct }, props, { onClick: handleClick, "aria-label": `clue-${number}-${direction}` }, { children: [number, ": ", children] })));
+    return ((0, jsx_runtime_1.jsxs)(ClueWrapper, Object.assign({ highlightBackground: highlightBackground, highlight: focused && direction === selectedDirection && number === selectedNumber }, props, { onClick: handleClick, "aria-label": `clue-${number}-${direction}` }, { children: [number, ": ", children] })));
 }
 exports.default = Clue;
 Clue.propTypes = {
@@ -71,14 +71,5 @@ Clue.propTypes = {
     number: prop_types_1.default.string.isRequired,
     /** clue text */
     children: prop_types_1.default.node.isRequired,
-    /** whether the answer/guess is complete */
-    complete: prop_types_1.default.bool,
-    /** whether the answer/guess is correct */
-    correct: prop_types_1.default.bool,
-};
-Clue.defaultProps = {
-    // children: undefined,
-    complete: undefined,
-    correct: undefined,
 };
 //# sourceMappingURL=Clue.js.map

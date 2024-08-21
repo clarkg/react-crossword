@@ -31,7 +31,6 @@ export interface CrosswordContextType {
     selectedPosition: GridPosition;
     selectedDirection: Direction;
     selectedNumber: string;
-    crosswordCorrect: boolean;
 }
 /**
  * CrosswordContext represents the crossword puzzle itself, as well as provides

@@ -36,14 +36,8 @@ export default function DirectionClues({
     <div className="direction">
       {/* use something other than h3? */}
       <h3 className="header">{label || direction.toUpperCase()}</h3>
-      {clues?.[direction].map(({ number, clue, complete, correct }) => (
-        <Clue
-          key={number}
-          direction={direction}
-          number={number}
-          complete={complete}
-          correct={correct}
-        >
+      {clues?.[direction].map(({ number, clue }) => (
+        <Clue key={number} direction={direction} number={number}>
           {clue}
         </Clue>
       ))}

@@ -106,8 +106,6 @@ export type CellData = UsedCellData | UnusedCellData;
 export type GridData = CellData[][];
 export type CluesData = Record<Direction, (ClueTypeOriginal & {
     number: string;
-    complete?: boolean;
-    correct?: boolean;
 })[]>;
 export type AnswerTuple = [Direction, string, string];
 /**

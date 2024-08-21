@@ -36,7 +36,6 @@ const styled_components_1 = require("styled-components");
 const context_1 = require("./context");
 const types_1 = require("./types");
 const util_1 = require("./util");
-const defaultStorageKey = 'guesses';
 exports.crosswordProviderPropTypes = {
     /**
      * clue/answer data; see <a
@@ -44,7 +43,6 @@ exports.crosswordProviderPropTypes = {
      * input format</a> for details.
      */
     data: types_1.cluesInputShapeOriginal.isRequired,
-    guessesFromDB: prop_types_1.default.array,
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: prop_types_1.default.shape({
         /**
@@ -73,71 +71,7 @@ exports.crosswordProviderPropTypes = {
          */
         highlightBackground: prop_types_1.default.string,
     }),
-    /** whether to use browser storage to persist the player's work-in-progress */
-    useStorage: prop_types_1.default.bool,
     allowMutation: prop_types_1.default.bool,
-    /**
-     * a custom storage key to use for persistence; defaults to "guesses" when not
-     * provided
-     */
-    storageKey: prop_types_1.default.string,
-    /**
-     * callback function that fires when a player completes an answer, whether
-     * correct or not; called with `(direction, number, correct, answer)`
-     * arguments, where `direction` is `'across'` or `'down'`, `number` is the
-     * clue number as text (like `'1'`), `correct` is whether the guessed answer
-     * is correct and `answer` is the (actual and correct) answer itself
-     *
-     * @since 4.3.0
-     */
-    onAnswerComplete: prop_types_1.default.func,
-    /**
-     * callback function that fires when a player answers a clue correctly; called
-     * with `(direction, number, answer)` arguments, where `direction` is
-     * `'across'` or `'down'`, `number` is the clue number as text (like `'1'`),
-     * and `answer` is the answer itself
-     *
-     * @since 4.3.0; replacing `onCorrect` (to reduce ambiguity)
-     */
-    onAnswerCorrect: prop_types_1.default.func,
-    /**
-     * callback function that fires when a player answers a clue correctly; called
-     * with `(direction, number, answer)` arguments, where `direction` is
-     * `'across'` or `'down'`, `number` is the clue number as text (like `'1'`),
-     * and `answer` is the answer itself
-     *
-     * @deprecated 4.3.0; being replaced by `onAnswerCorrect` (to reduce
-     * ambiguity)
-     */
-    onCorrect: prop_types_1.default.func,
-    /**
-     * callback function that fires when a player answers a clue *in*correctly;
-     * called with `(direction, number, answer)` arguments, where `direction` is
-     * `'across'` or `'down'`, `number` is the clue number as text (like `'1'`),
-     * and `answer` is the (actual and correct) answer itself
-     *
-     * @since 4.3.0
-     */
-    onAnswerIncorrect: prop_types_1.default.func,
-    /**
-     * callback function that's called when a crossword is loaded, to batch up
-     * correct answers loaded from storage; passed an array of the same values
-     * that `onCorrect` would recieve
-     */
-    onLoadedCorrect: prop_types_1.default.func,
-    /**
-     * callback function that's called when the overall crossword is complete,
-     * whether correct or not; called with `(correct)` argument, a boolean which
-     * indicates whether the crossword is correct or not.
-     */
-    onCrosswordComplete: prop_types_1.default.func,
-    /**
-     * callback function that's called when the overall crossword is completely
-     * correct (or not)
-     *
-     * NOTE: this will be deprecated for `onCrosswordComplete` in the future.
-     */
-    onCrosswordCorrect: prop_types_1.default.func,
     /**
      * callback function called when a cell changes (e.g. when the user types a
      * letter); called with `(row, col, char)` arguments, where the `row` and
@@ -170,7 +104,7 @@ const defaultTheme = {
  *
  * @since 4.0
  */
-const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerComplete, onAnswerCorrect, onCorrect, onAnswerIncorrect, onLoadedCorrect, onCrosswordComplete, onCrosswordCorrect, onCellChange, onClueSelected, useStorage, storageKey, allowMutation, children, guessesFromDB, }, ref) => {
+const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChange, onClueSelected, allowMutation, children, guessesFromDB, }, ref) => {
     const contextTheme = (0, react_1.useContext)(styled_components_1.ThemeContext);
     // The final theme is the merger of three values: the "theme" property
     // passed to the component (which takes precedence), any values from
@@ -197,8 +131,6 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
     const [currentNumber, setCurrentNumber] = (0, react_1.useState)('1');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [bulkChange, setBulkChange] = (0, react_1.useState)(null);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [checkQueue, setCheckQueue] = (0, react_1.useState)([]);
     // This *internal* getCellData assumes that it's only ever asked for a valid
     // cell (one that's used).
     const getCellData = (0, react_1.useCallback)((row, col) => {
@@ -221,116 +153,10 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         setGridData((0, immer_1.default)((draft) => {
             draft[row][col].guess = char;
         }));
-        // push the row/col for checking!
-        setCheckQueue((0, immer_1.default)((draft) => {
-            draft.push({ row, col });
-        }));
         if (onCellChange) {
             onCellChange(row, col, char);
         }
     }, [getCellData, onCellChange]);
-    const notifyAnswerComplete = (0, react_1.useCallback)((direction, number, correct, answer) => {
-        if (onAnswerComplete) {
-            onAnswerComplete(direction, number, correct, answer);
-        }
-        if (correct) {
-            if (onAnswerCorrect) {
-                onAnswerCorrect(direction, number, answer);
-            }
-            // NOTE: onCorrect to be (eventually) deprecated
-            if (onCorrect) {
-                onCorrect(direction, number, answer);
-            }
-        }
-        else if (onAnswerIncorrect) {
-            onAnswerIncorrect(direction, number, answer);
-        }
-    }, [onAnswerComplete, onAnswerCorrect, onAnswerIncorrect, onCorrect]);
-    const checkCorrectness = (0, react_1.useCallback)((row, col) => {
-        const cell = getCellData(row, col);
-        if (!cell.used) {
-            // Because this is in an internal callback, and we only call it with a
-            // valid cell (row/col), the throw line isn't testable... so we ignore
-            // it.
-            /* istanbul ignore next */
-            throw new Error('unexpected unused cell');
-        }
-        // check all the cells for both across and down answers that use this
-        // cell
-        util_1.bothDirections.forEach((direction) => {
-            const across = (0, util_1.isAcross)(direction);
-            const number = cell[direction];
-            if (!number) {
-                return;
-            }
-            const info = data[direction][number];
-            // We send correct/incorrect messages, but *only* if every cell in the
-            // answer is filled out; there's no point in reporting "incorrect"
-            // when the answer is simply incomplete.
-            let complete = true;
-            let correct = true;
-            for (let i = 0; i < info.answer.length; i++) {
-                const checkCell = getCellData(info.row + (across ? 0 : i), info.col + (across ? i : 0));
-                if (!checkCell.guess) {
-                    complete = false;
-                    correct = false;
-                    break;
-                }
-                if (checkCell.guess !== checkCell.answer) {
-                    correct = false;
-                }
-            }
-            // update the clue state
-            setClues((0, immer_1.default)((draft) => {
-                if (draft) {
-                    const clueInfo = draft[direction].find((i) => i.number === number);
-                    if (clueInfo) {
-                        clueInfo.complete = complete;
-                        clueInfo.correct = correct;
-                    }
-                }
-            }));
-            if (complete) {
-                notifyAnswerComplete(direction, number, correct, info.answer);
-            }
-        });
-    }, [data, getCellData, notifyAnswerComplete]);
-    // Any time the checkQueue changes, call checkCorrectness!
-    (0, react_1.useEffect)(() => {
-        if (checkQueue.length === 0) {
-            return;
-        }
-        checkQueue.forEach(({ row, col }) => checkCorrectness(row, col));
-        setCheckQueue([]);
-    }, [checkQueue, checkCorrectness]);
-    // Any time the clues change, determine if they are all complete/correct or
-    // not.
-    const { crosswordComplete, crosswordCorrect } = (0, react_1.useMemo)(() => {
-        const complete = !!(clues &&
-            util_1.bothDirections.every((direction) => clues[direction].every((clueInfo) => clueInfo.complete)));
-        const correct = complete &&
-            !!(clues &&
-                util_1.bothDirections.every((direction) => clues[direction].every((clueInfo) => clueInfo.correct)));
-        // console.log('setting crossword correct', { clues, correct });
-        return { crosswordComplete: complete, crosswordCorrect: correct };
-    }, [clues]);
-    // Let the consumer know everything's correct (or not) if they've asked to
-    // be informed.
-    (0, react_1.useEffect)(() => {
-        if (crosswordComplete) {
-            if (onCrosswordComplete) {
-                onCrosswordComplete(crosswordCorrect);
-            }
-            if (onCrosswordCorrect && crosswordCorrect) {
-                onCrosswordCorrect(crosswordCorrect);
-            }
-        }
-    }, [
-        crosswordComplete,
-        crosswordCorrect,
-        onCrosswordComplete,
-        onCrosswordCorrect,
-    ]);
     // focus and movement
     const focus = (0, react_1.useCallback)(() => {
         // console.log('CrosswordProvider.focus() called...');
@@ -521,27 +347,8 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         if (guessesFromDB && guessesFromDB.length > 0) {
             (0, util_1.loadGuessesFromDB)(newGridData, guessesFromDB);
         }
-        else if (useStorage) {
-            (0, util_1.loadGuesses)(newGridData, storageKey || defaultStorageKey);
-        }
         setClues(newCluesData);
         setGridData(newGridData);
-        // Check all of the clues to see if any were correct... but only if we
-        // loaded guesses.  Since the current implementation relies on state, we
-        // leverage the checkQueue to run through all the clues/guesses.
-        //
-        // Really, the ideal thing to do would be to write the checking-logic in a
-        // way that it doesn't assume the data is already in state... that would
-        // allow us to check everything directly, and simply set the same state
-        // that checkCorrectness() does, *and* properly call onLoadedCorrect(). As
-        // it is, this implementation can cause some answers to mentioned in
-        // onCorrect() more than once (any time an across answer starts inside a
-        // down answer, or vice versa.)
-        if (useStorage || (guessesFromDB && guessesFromDB.length > 0)) {
-            setCheckQueue(util_1.bothDirections.flatMap((dir) => 
-            // simply use the row/col that starts each answer.
-            newCluesData[dir].map(({ row, col }) => ({ row, col }))));
-        }
         // Find the element with the lowest number in the 2D array newGridData
         let lowestNumberCell = null;
         for (let row = 0; row < newGridData.length; row++) {
@@ -579,14 +386,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             setCurrentDirection(lowestNumberDirection);
             focus();
         }
-    }, [masterClues, masterGridData, storageKey, useStorage]);
-    // save the guesses any time they change...
-    (0, react_1.useEffect)(() => {
-        if (gridData === null || !useStorage) {
-            return;
-        }
-        (0, util_1.saveGuesses)(gridData, storageKey || defaultStorageKey);
-    }, [gridData, storageKey, useStorage]);
+    }, [masterClues, masterGridData]);
     const handleCellClick = (0, react_1.useCallback)((cellData) => {
         var _a;
         if (cellData.used) {
@@ -678,52 +478,10 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
                 util_1.bothDirections.forEach((direction) => {
                     var _a;
                     (_a = draft === null || draft === void 0 ? void 0 : draft[direction]) === null || _a === void 0 ? void 0 : _a.forEach((clueInfo) => {
-                        delete clueInfo.complete;
-                        delete clueInfo.correct;
                     });
                 });
             }));
-            if (useStorage) {
-                (0, util_1.clearGuesses)(storageKey || defaultStorageKey);
-            }
         },
-        /**
-         * Fills all the answers in the grid and calls the `onLoadedCorrect`
-         * callback with _**every**_ answer.
-         */
-        fillAllAnswers: () => {
-            setGridData((0, immer_1.default)((draft) => {
-                draft.forEach((rowData) => {
-                    rowData.forEach((cellData) => {
-                        if (cellData.used) {
-                            cellData.guess = cellData.answer;
-                        }
-                    });
-                });
-            }));
-            setClues((0, immer_1.default)((draft) => {
-                util_1.bothDirections.forEach((direction) => {
-                    draft === null || draft === void 0 ? void 0 : draft[direction].forEach((clueInfo) => {
-                        clueInfo.complete = true;
-                        clueInfo.correct = true;
-                    });
-                });
-            }));
-            // trigger onLoadedCorrect with every clue!
-            if (onLoadedCorrect) {
-                const loadedCorrect = [];
-                util_1.bothDirections.forEach((direction) => {
-                    clues === null || clues === void 0 ? void 0 : clues[direction].forEach(({ number, answer }) => {
-                        loadedCorrect.push([direction, number, answer]);
-                    });
-                });
-                onLoadedCorrect(loadedCorrect);
-            }
-        },
-        /**
-         * Returns whether the crossword is entirely correct or not.
-         */
-        isCrosswordCorrect: () => crosswordCorrect,
         /**
          * Sets the “guess” character for a specific grid position.
          *
@@ -735,12 +493,8 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         },
     }), [
         clues,
-        crosswordCorrect,
         focus,
-        onLoadedCorrect,
         setCellCharacter,
-        storageKey,
-        useStorage,
     ]);
     const crosswordContext = (0, react_1.useMemo)(() => ({
         rows,
@@ -757,7 +511,6 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         selectedPosition: { row: focusedRow, col: focusedCol },
         selectedDirection: currentDirection,
         selectedNumber: currentNumber,
-        crosswordCorrect,
     }), [
         rows,
         cols,
@@ -774,7 +527,6 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         focusedCol,
         currentDirection,
         currentNumber,
-        crosswordCorrect,
     ]);
     return ((0, jsx_runtime_1.jsx)(styled_components_1.ThemeProvider, Object.assign({ theme: finalTheme }, { children: (0, jsx_runtime_1.jsx)(context_1.CrosswordContext.Provider, Object.assign({ value: crosswordContext }, { children: children })) })));
 });
@@ -783,16 +535,7 @@ CrosswordProvider.displayName = 'CrosswordProvider';
 CrosswordProvider.propTypes = exports.crosswordProviderPropTypes;
 CrosswordProvider.defaultProps = {
     theme: undefined,
-    useStorage: false,
     allowMutation: true,
-    storageKey: undefined,
-    onAnswerComplete: undefined,
-    onAnswerCorrect: undefined,
-    onCorrect: undefined,
-    onAnswerIncorrect: undefined,
-    onLoadedCorrect: undefined,
-    onCrosswordComplete: undefined,
-    onCrosswordCorrect: undefined,
     onCellChange: undefined,
     onClueSelected: undefined,
     children: undefined,

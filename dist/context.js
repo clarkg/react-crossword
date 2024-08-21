@@ -28,7 +28,6 @@ exports.CrosswordContext = react_1.default.createContext({
     selectedPosition: { row: 0, col: 0 },
     selectedDirection: 'across',
     selectedNumber: '',
-    crosswordCorrect: false,
 });
 exports.CrosswordSizeContext = react_1.default.createContext({
     cellSize: 0,

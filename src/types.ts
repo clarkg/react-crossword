@@ -107,8 +107,6 @@ export type CluesData = Record<
   Direction,
   (ClueTypeOriginal & {
     number: string;
-    complete?: boolean;
-    correct?: boolean;
   })[]
 >;
 

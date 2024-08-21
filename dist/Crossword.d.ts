@@ -26,11 +26,11 @@ declare const crosswordPropTypes: {
             }>>;
         }>;
     }>>>;
-    guessesFromDB: PropTypes.Requireable<any[]>;
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         allowNonSquare: PropTypes.Requireable<boolean>;
         columnBreakpoint: PropTypes.Requireable<string>;
         gridBackground: PropTypes.Requireable<string>;
+        /** the label for the "down" clues */
         cellBackground: PropTypes.Requireable<string>;
         cellBorder: PropTypes.Requireable<string>;
         textColor: PropTypes.Requireable<string>;
@@ -38,19 +38,7 @@ declare const crosswordPropTypes: {
         focusBackground: PropTypes.Requireable<string>;
         highlightBackground: PropTypes.Requireable<string>;
     }>>;
-    useStorage: PropTypes.Requireable<boolean>;
     allowMutation: PropTypes.Requireable<boolean>;
-    storageKey: PropTypes.Requireable<string>; /**
-     * Resets the entire crossword; clearing all answers in the grid and
-     * also any persisted data.
-     */
-    onAnswerComplete: PropTypes.Requireable<(...args: any[]) => any>;
-    onAnswerCorrect: PropTypes.Requireable<(...args: any[]) => any>;
-    onCorrect: PropTypes.Requireable<(...args: any[]) => any>;
-    onAnswerIncorrect: PropTypes.Requireable<(...args: any[]) => any>;
-    onLoadedCorrect: PropTypes.Requireable<(...args: any[]) => any>;
-    onCrosswordComplete: PropTypes.Requireable<(...args: any[]) => any>;
-    onCrosswordCorrect: PropTypes.Requireable<(...args: any[]) => any>;
     onCellChange: PropTypes.Requireable<(...args: any[]) => any>;
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
     children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
@@ -86,11 +74,11 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
             }>>;
         }>;
     }>>>;
-    guessesFromDB: PropTypes.Requireable<any[]>;
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         allowNonSquare: PropTypes.Requireable<boolean>;
         columnBreakpoint: PropTypes.Requireable<string>;
         gridBackground: PropTypes.Requireable<string>;
+        /** the label for the "down" clues */
         cellBackground: PropTypes.Requireable<string>;
         cellBorder: PropTypes.Requireable<string>;
         textColor: PropTypes.Requireable<string>;
@@ -98,21 +86,9 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
         focusBackground: PropTypes.Requireable<string>;
         highlightBackground: PropTypes.Requireable<string>;
     }>>;
-    useStorage: PropTypes.Requireable<boolean>;
     allowMutation: PropTypes.Requireable<boolean>;
-    storageKey: PropTypes.Requireable<string>; /**
-     * Resets the entire crossword; clearing all answers in the grid and
-     * also any persisted data.
-     */
-    onAnswerComplete: PropTypes.Requireable<(...args: any[]) => any>;
-    onAnswerCorrect: PropTypes.Requireable<(...args: any[]) => any>;
-    onCorrect: PropTypes.Requireable<(...args: any[]) => any>;
-    onAnswerIncorrect: PropTypes.Requireable<(...args: any[]) => any>;
-    onLoadedCorrect: PropTypes.Requireable<(...args: any[]) => any>;
-    onCrosswordComplete: PropTypes.Requireable<(...args: any[]) => any>;
-    onCrosswordCorrect: PropTypes.Requireable<(...args: any[]) => any>;
     onCellChange: PropTypes.Requireable<(...args: any[]) => any>;
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
     children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
-}>, "data" | "theme" | "guessesFromDB" | "useStorage" | "allowMutation" | "storageKey" | "onAnswerComplete" | "onAnswerCorrect" | "onCorrect" | "onAnswerIncorrect" | "onLoadedCorrect" | "onCrosswordComplete" | "onCrosswordCorrect" | "onCellChange" | "onClueSelected"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
+}>, "data" | "theme" | "allowMutation" | "onCellChange" | "onClueSelected" | "guessesFromDB"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
 export default Crossword;

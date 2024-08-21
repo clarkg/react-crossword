@@ -115,17 +115,6 @@ const Crossword = react_1.default.forwardRef((_a, ref) => {
          */
         reset: () => { var _a; return (_a = providerRef.current) === null || _a === void 0 ? void 0 : _a.reset(); },
         /**
-         * Fills all the answers in the grid and calls the `onLoadedCorrect`
-         * callback with _**every**_ answer.
-         */
-        fillAllAnswers: () => { var _a; return (_a = providerRef.current) === null || _a === void 0 ? void 0 : _a.fillAllAnswers(); },
-        /**
-         * Returns whether the crossword is entirely correct or not.
-         *
-         * @since 2.2.0
-         */
-        isCrosswordCorrect: () => { var _a; return !!((_a = providerRef.current) === null || _a === void 0 ? void 0 : _a.isCrosswordCorrect()); },
-        /**
          * Sets the “guess” character for a specific grid position.
          *
          * @since 4.1.0
