@@ -138,6 +138,8 @@ export interface CrosswordProviderImperative {
    * @since 4.1.0
    */
   setGuess: (row: number, col: number, guess: string) => void;
+
+  getGridData: () => GridData;
 }
 
 const defaultTheme: CrosswordProviderProps['theme'] = {
@@ -698,8 +700,13 @@ const CrosswordProvider = React.forwardRef<
           // REVIEW: should we force-case this?
           setCellCharacter(row, col, guess.toUpperCase());
         },
+
+        /**
+         * Returns the current grid data.
+         */
+        getGridData: () => gridData,
       }),
-      [clues, focus, setCellCharacter]
+      [clues, focus, setCellCharacter, gridData]
     );
 
     const crosswordContext = useMemo<CrosswordContextType>(
