@@ -104,7 +104,7 @@ const defaultTheme = {
  *
  * @since 4.0
  */
-const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChange, onClueSelected, allowMutation, children, guessesFromDB, }, ref) => {
+const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChange, onGridChange, onClueSelected, allowMutation, children, guessesFromDB, }, ref) => {
     const contextTheme = (0, react_1.useContext)(styled_components_1.ThemeContext);
     // The final theme is the merger of three values: the "theme" property
     // passed to the component (which takes precedence), any values from
@@ -157,6 +157,11 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             onCellChange(row, col, char);
         }
     }, [getCellData, onCellChange]);
+    (0, react_1.useEffect)(() => {
+        if (onGridChange) {
+            onGridChange(gridData);
+        }
+    }, [gridData, onGridChange]);
     // focus and movement
     const focus = (0, react_1.useCallback)(() => {
         // console.log('CrosswordProvider.focus() called...');

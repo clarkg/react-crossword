@@ -87,6 +87,7 @@ export type CrosswordProviderProps = EnhancedProps<typeof crosswordProviderPropT
      * character typed (already massaged into upper-case)
      */
     onCellChange?: (row: number, col: number, char: string) => void;
+    onGridChange?: (gridData: GridData) => void;
     /**
      * callback function called when a clue is selected
      */
@@ -184,7 +185,7 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
      */
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
     children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
-}>, "data" | "onCellChange" | "onClueSelected" | "guessesFromDB"> & {
+}>, "data" | "onCellChange" | "onClueSelected" | "guessesFromDB" | "onGridChange"> & {
     /**
      * clue/answer data; see <a
      * href="#/Configuration%20and%20customization/Clue%20input%20format">Clue
@@ -203,6 +204,7 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
      * character typed (already massaged into upper-case)
      */
     onCellChange?: ((row: number, col: number, char: string) => void) | undefined;
+    onGridChange?: ((gridData: GridData) => void) | undefined;
     /**
      * callback function called when a clue is selected
      */

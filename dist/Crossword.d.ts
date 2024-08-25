@@ -90,5 +90,5 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
     onCellChange: PropTypes.Requireable<(...args: any[]) => any>;
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
     children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
-}>, "data" | "theme" | "allowMutation" | "onCellChange" | "onClueSelected" | "guessesFromDB"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
+}>, "data" | "theme" | "allowMutation" | "onCellChange" | "onClueSelected" | "guessesFromDB" | "onGridChange"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
 export default Crossword;

@@ -113,6 +113,8 @@ export type CrosswordProviderProps = EnhancedProps<
      */
     onCellChange?: (row: number, col: number, char: string) => void;
 
+    onGridChange?: (gridData: GridData) => void;
+
     /**
      * callback function called when a clue is selected
      */
@@ -171,6 +173,7 @@ const CrosswordProvider = React.forwardRef<
       data,
       theme,
       onCellChange,
+      onGridChange,
       onClueSelected,
       allowMutation,
       children,
@@ -264,6 +267,12 @@ const CrosswordProvider = React.forwardRef<
       },
       [getCellData, onCellChange]
     );
+
+    useEffect(() => {
+      if (onGridChange) {
+        onGridChange(gridData);
+      }
+    }, [gridData, onGridChange]);
 
     // focus and movement
     const focus = useCallback(() => {
