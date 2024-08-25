@@ -158,10 +158,10 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         }
     }, [getCellData, onCellChange]);
     (0, react_1.useEffect)(() => {
-        if (onGridChange) {
+        if (allowMutation && onGridChange) {
             onGridChange(gridData);
         }
-    }, [gridData, onGridChange]);
+    }, [gridData, onGridChange, allowMutation]);
     // focus and movement
     const focus = (0, react_1.useCallback)(() => {
         // console.log('CrosswordProvider.focus() called...');

@@ -269,10 +269,10 @@ const CrosswordProvider = React.forwardRef<
     );
 
     useEffect(() => {
-      if (onGridChange) {
+      if (allowMutation && onGridChange) {
         onGridChange(gridData);
       }
-    }, [gridData, onGridChange]);
+    }, [gridData, onGridChange, allowMutation]);
 
     // focus and movement
     const focus = useCallback(() => {
