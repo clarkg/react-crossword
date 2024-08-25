@@ -120,7 +120,11 @@ const Crossword = react_1.default.forwardRef((_a, ref) => {
          * @since 4.1.0
          */
         setGuess: (row, col, guess) => { var _a; return (_a = providerRef.current) === null || _a === void 0 ? void 0 : _a.setGuess(row, col, guess); },
-    }), []);
+        /**
+         * Returns the current grid data.
+         */
+        getGridData: () => providerRef.current.getGridData(),
+    }), [providerRef]);
     return ((0, jsx_runtime_1.jsxs)(CrosswordProvider_1.default, Object.assign({}, props, { ref: providerRef }, { children: [(0, jsx_runtime_1.jsx)(CrosswordGrid_1.default, {}), (0, jsx_runtime_1.jsxs)(CluesWrapper, { children: [(0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "across", label: acrossLabel }), (0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "down", label: downLabel })] })] })));
 });
 Crossword.displayName = 'Crossword';

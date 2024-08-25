@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CluesInput, Direction, EnhancedProps } from './types';
+import { CluesInput, Direction, EnhancedProps, GridData } from './types';
 export declare const crosswordProviderPropTypes: {
     /**
      * clue/answer data; see <a
@@ -108,6 +108,7 @@ export interface CrosswordProviderImperative {
      * @since 4.1.0
      */
     setGuess: (row: number, col: number, guess: string) => void;
+    getGridData: () => GridData;
 }
 /**
  * The fundamental logic and data management component for react-crossword.

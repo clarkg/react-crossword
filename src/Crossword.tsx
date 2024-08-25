@@ -113,8 +113,13 @@ const Crossword = React.forwardRef<CrosswordImperative, CrosswordProps>(
          */
         setGuess: (row: number, col: number, guess: string) =>
           providerRef.current?.setGuess(row, col, guess),
+
+        /**
+         * Returns the current grid data.
+         */
+        getGridData: () => providerRef.current!.getGridData(),
       }),
-      []
+      [providerRef]
     );
 
     return (

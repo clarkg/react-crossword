@@ -490,7 +490,11 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             // REVIEW: should we force-case this?
             setCellCharacter(row, col, guess.toUpperCase());
         },
-    }), [clues, focus, setCellCharacter]);
+        /**
+         * Returns the current grid data.
+         */
+        getGridData: () => gridData,
+    }), [clues, focus, setCellCharacter, gridData]);
     const crosswordContext = (0, react_1.useMemo)(() => ({
         rows,
         cols,
