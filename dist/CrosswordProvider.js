@@ -386,7 +386,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         }
     }, [data, finalTheme.allowNonSquare, guessesFromDB]);
     (0, react_1.useEffect)(() => {
-        console.log("guessesFromDB", guessesFromDB);
+        console.log("guessesFromDB changed");
+        console.log('gridData', gridData);
+        console.log('guessesFromDB', guessesFromDB);
         if (guessesFromDB && guessesFromDB.length > 0) {
             (0, util_1.loadGuessesFromDB)(gridData, guessesFromDB);
         }

@@ -552,6 +552,8 @@ const CrosswordProvider = React.forwardRef<
     }, [data, finalTheme.allowNonSquare, guessesFromDB]);
 
     useEffect(() => {
+      console.log('guessesFromDB changed');
+      console.log('gridData', gridData);
       console.log('guessesFromDB', guessesFromDB);
       if (guessesFromDB && guessesFromDB.length > 0) {
         loadGuessesFromDB(gridData, guessesFromDB);
