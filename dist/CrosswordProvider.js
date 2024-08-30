@@ -334,15 +334,17 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         handleSingleCharacter(bulkChange[0]);
         setBulkChange(bulkChange.length === 1 ? null : bulkChange.substring(1));
     }, [bulkChange, handleSingleCharacter]);
+    // Memoize the result of createGridData
+    const gridInfo = (0, react_1.useMemo)(() => {
+        var _a;
+        return (0, util_1.createGridData)(data, (_a = finalTheme.allowNonSquare) !== null && _a !== void 0 ? _a : false);
+    }, [data, finalTheme.allowNonSquare]);
     // When the clues *input* data changes, reset/reload the player data
     (0, react_1.useEffect)(() => {
-        var _a;
-        // The original Crossword implementation used separate state to track size
-        // and grid data, and conflated the clues-input-data-based grid data and the
-        // player input guesses.  Let's see if we can keep the clues-input and
-        // player data segregated.
-        const { rows: numRows, cols: numCols, gridData: masterGridData, clues: masterClues, } = (0, util_1.createGridData)(data, (_a = finalTheme.allowNonSquare) !== null && _a !== void 0 ? _a : false);
-        console.log('masterGridData', masterGridData);
+        const { rows: numRows, cols: numCols, gridData: masterGridData, clues: masterClues, } = gridInfo;
+        if (guessesFromDB && guessesFromDB.length > 0) {
+            (0, util_1.loadGuessesFromDB)(masterGridData, guessesFromDB);
+        }
         setRows(numRows);
         setCols(numCols);
         setGridData(masterGridData);
@@ -384,19 +386,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             setCurrentDirection(lowestNumberDirection);
             focus();
         }
-    }, [data, finalTheme.allowNonSquare, guessesFromDB]);
-    (0, react_1.useEffect)(() => {
-        console.log('guessesFromDB changed');
-        console.log('gridData', gridData);
-        console.log('guessesFromDB', guessesFromDB);
-        if (guessesFromDB && guessesFromDB.length > 0) {
-            (0, util_1.loadGuessesFromDB)(gridData, guessesFromDB);
-        }
-        setGridData(gridData);
-    }, [guessesFromDB]);
-    (0, react_1.useEffect)(() => {
-        console.log('gridData updated:', gridData);
-    }, [gridData]);
+    }, [gridInfo, guessesFromDB]);
     const handleCellClick = (0, react_1.useCallback)((cellData) => {
         var _a;
         if (cellData.used) {

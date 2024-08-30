@@ -483,20 +483,21 @@ const CrosswordProvider = React.forwardRef<
       setBulkChange(bulkChange.length === 1 ? null : bulkChange.substring(1));
     }, [bulkChange, handleSingleCharacter]);
 
+    // Memoize the result of createGridData
+    const gridInfo = useMemo(() => createGridData(data, finalTheme.allowNonSquare ?? false), [data, finalTheme.allowNonSquare]);
+
     // When the clues *input* data changes, reset/reload the player data
     useEffect(() => {
-      // The original Crossword implementation used separate state to track size
-      // and grid data, and conflated the clues-input-data-based grid data and the
-      // player input guesses.  Let's see if we can keep the clues-input and
-      // player data segregated.
       const {
         rows: numRows,
         cols: numCols,
         gridData: masterGridData,
         clues: masterClues,
-      } = createGridData(data, finalTheme.allowNonSquare ?? false);
+      } = gridInfo;
 
-      console.log('masterGridData', masterGridData);
+      if (guessesFromDB && guessesFromDB.length > 0) {
+        loadGuessesFromDB(masterGridData, guessesFromDB);
+      }
 
       setRows(numRows);
       setCols(numCols);
@@ -549,21 +550,7 @@ const CrosswordProvider = React.forwardRef<
         setCurrentDirection(lowestNumberDirection);
         focus();
       }
-    }, [data, finalTheme.allowNonSquare, guessesFromDB]);
-
-    useEffect(() => {
-      console.log('guessesFromDB changed');
-      console.log('gridData', gridData);
-      console.log('guessesFromDB', guessesFromDB);
-      if (guessesFromDB && guessesFromDB.length > 0) {
-        loadGuessesFromDB(gridData, guessesFromDB);
-      }
-      setGridData(gridData);
-    }, [guessesFromDB]);
-
-    useEffect(() => {
-      console.log('gridData updated:', gridData);
-    }, [gridData]);
+    }, [gridInfo, guessesFromDB]);
 
     const handleCellClick = useCallback(
       (cellData: CellData) => {
