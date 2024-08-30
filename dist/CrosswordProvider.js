@@ -112,13 +112,10 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
     // needed ones that are missing.  (We create this in standard last-one-wins
     // order in Javascript, of course.)
     const finalTheme = (0, react_1.useMemo)(() => (Object.assign(Object.assign(Object.assign({}, defaultTheme), contextTheme), theme)), [contextTheme, theme]);
-    // The original Crossword implementation used separate state to track size
-    // and grid data, and conflated the clues-input-data-based grid data and the
-    // player input guesses.  Let's see if we can keep the clues-input and
-    // player data segregated.
-    const { rows, cols, gridData: masterGridData, clues: masterClues, } = (0, react_1.useMemo)(() => { var _a; return (0, util_1.createGridData)(data, (_a = finalTheme.allowNonSquare) !== null && _a !== void 0 ? _a : false); }, [data, finalTheme.allowNonSquare]);
     const [gridData, setGridData] = (0, react_1.useState)([]);
     const [clues, setClues] = (0, react_1.useState)();
+    const [rows, setRows] = (0, react_1.useState)(0);
+    const [cols, setCols] = (0, react_1.useState)(0);
     // We can't seem to use state to track the registeredFocusHandler, because
     // there seems to be a delay in 'focus' being usable after it's set.  We use
     // a Ref instead.
@@ -338,19 +335,15 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
     }, [bulkChange, handleSingleCharacter]);
     // When the clues *input* data changes, reset/reload the player data
     (0, react_1.useEffect)(() => {
-        // Check if masterGridData has different dimensions from gridData
-        console.log('gridData', gridData);
-        console.log('masterGridData', masterGridData);
-        if (gridData.length === 0 ||
-            masterGridData.length !== gridData.length ||
-            masterGridData[0].length !== gridData[0].length) {
-            if (guessesFromDB && guessesFromDB.length > 0) {
-                (0, util_1.loadGuessesFromDB)(masterGridData, guessesFromDB);
-            }
-            console.log("about to set gridData to masterGridData", masterGridData);
-            setGridData(masterGridData);
-            console.log('gridData', gridData);
-        }
+        var _a;
+        // The original Crossword implementation used separate state to track size
+        // and grid data, and conflated the clues-input-data-based grid data and the
+        // player input guesses.  Let's see if we can keep the clues-input and
+        // player data segregated.
+        const { rows: numRows, cols: numCols, gridData: masterGridData, clues: masterClues, } = (0, util_1.createGridData)(data, (_a = finalTheme.allowNonSquare) !== null && _a !== void 0 ? _a : false);
+        setRows(numRows);
+        setCols(numCols);
+        setGridData(masterGridData);
         setClues(masterClues);
         // Find the element with the lowest number in the 2D array newGridData
         let lowestNumberCell = null;
@@ -389,7 +382,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             setCurrentDirection(lowestNumberDirection);
             focus();
         }
-    }, [masterClues, masterGridData]);
+    }, [data, finalTheme.allowNonSquare]);
     (0, react_1.useEffect)(() => {
         if (guessesFromDB && guessesFromDB.length > 0) {
             (0, util_1.loadGuessesFromDB)(gridData, guessesFromDB);
