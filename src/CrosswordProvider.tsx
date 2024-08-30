@@ -506,7 +506,9 @@ const CrosswordProvider = React.forwardRef<
         if (guessesFromDB && guessesFromDB.length > 0) {
           loadGuessesFromDB(masterGridData, guessesFromDB);
         }
+        console.log('about to set gridData to masterGridData', masterGridData);
         setGridData(masterGridData);
+        console.log('gridData', gridData);
       }
       setClues(masterClues);
 

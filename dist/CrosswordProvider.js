@@ -347,7 +347,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             if (guessesFromDB && guessesFromDB.length > 0) {
                 (0, util_1.loadGuessesFromDB)(masterGridData, guessesFromDB);
             }
+            console.log("about to set gridData to masterGridData", masterGridData);
             setGridData(masterGridData);
+            console.log('gridData', gridData);
         }
         setClues(masterClues);
         // Find the element with the lowest number in the 2D array newGridData
