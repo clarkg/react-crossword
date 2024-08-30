@@ -386,7 +386,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         }
     }, [data, finalTheme.allowNonSquare, guessesFromDB]);
     (0, react_1.useEffect)(() => {
-        console.log("guessesFromDB changed");
+        console.log('guessesFromDB changed');
         console.log('gridData', gridData);
         console.log('guessesFromDB', guessesFromDB);
         if (guessesFromDB && guessesFromDB.length > 0) {
@@ -394,6 +394,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         }
         setGridData(gridData);
     }, [guessesFromDB]);
+    (0, react_1.useEffect)(() => {
+        console.log('gridData updated:', gridData);
+    }, [gridData]);
     const handleCellClick = (0, react_1.useCallback)((cellData) => {
         var _a;
         if (cellData.used) {

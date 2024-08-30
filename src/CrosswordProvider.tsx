@@ -561,6 +561,10 @@ const CrosswordProvider = React.forwardRef<
       setGridData(gridData);
     }, [guessesFromDB]);
 
+    useEffect(() => {
+      console.log('gridData updated:', gridData);
+    }, [gridData]);
+
     const handleCellClick = useCallback(
       (cellData: CellData) => {
         if (cellData.used) {
