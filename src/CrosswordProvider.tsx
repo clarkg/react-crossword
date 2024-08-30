@@ -255,11 +255,13 @@ const CrosswordProvider = React.forwardRef<
         }
 
         // update the gridData with the guess
+        /*
         setGridData(
           produce((draft) => {
             (draft[row][col] as UsedCellData).guess = char;
           })
         );
+        */
 
         if (onCellChange) {
           onCellChange(row, col, char);
@@ -493,37 +495,23 @@ const CrosswordProvider = React.forwardRef<
 
     // When the clues *input* data changes, reset/reload the player data
     useEffect(() => {
-      // deep-clone the grid data...
-      const newGridData = masterGridData.map((row) =>
-        row.map((cell) => ({ ...cell }))
-      );
-      // Clear any existing guesses in the grid
-      newGridData.forEach((row) => {
-        row.forEach((cell) => {
-          if (cell.used) {
-            (cell as UsedCellData).guess = undefined;
-          }
-        });
-      });
-
-      // deep-clone the clue data...
-      const newCluesData: CluesData = {
-        across: masterClues.across.map((clue) => ({ ...clue })),
-        down: masterClues.down.map((clue) => ({ ...clue })),
-      };
-
-      if (guessesFromDB && guessesFromDB.length > 0) {
-        loadGuessesFromDB(newGridData, guessesFromDB);
+      // Check if masterGridData has different dimensions from gridData
+      if (
+        masterGridData.length !== gridData.length ||
+        masterGridData[0].length !== gridData[0].length
+      ) {
+        if (guessesFromDB && guessesFromDB.length > 0) {
+          loadGuessesFromDB(masterGridData, guessesFromDB);
+        }
+        setGridData(masterGridData);
       }
-
-      setClues(newCluesData);
-      setGridData(newGridData);
+      setClues(masterClues);
 
       // Find the element with the lowest number in the 2D array newGridData
       let lowestNumberCell: UsedCellData | null = null;
-      for (let row = 0; row < newGridData.length; row++) {
-        for (let col = 0; col < newGridData[row].length; col++) {
-          const cell = newGridData[row][col];
+      for (let row = 0; row < masterGridData.length; row++) {
+        for (let col = 0; col < masterGridData[row].length; col++) {
+          const cell = masterGridData[row][col];
           if (cell.used && cell.number) {
             if (
               !lowestNumberCell ||
@@ -546,14 +534,14 @@ const CrosswordProvider = React.forwardRef<
         const lowestNumber = lowestNumberCell.number!;
 
         // Check across clues first
-        const acrossClue = newCluesData.across.find(
+        const acrossClue = masterClues.across.find(
           (clue) => clue.number === lowestNumber
         );
         if (acrossClue) {
           lowestNumberDirection = 'across';
         } else {
           // If not found in across, check down clues
-          const downClue = newCluesData.down.find(
+          const downClue = masterClues.down.find(
             (clue) => clue.number === lowestNumber
           );
           if (downClue) {
@@ -566,6 +554,13 @@ const CrosswordProvider = React.forwardRef<
         focus();
       }
     }, [masterClues, masterGridData]);
+
+    useEffect(() => {
+      if (guessesFromDB && guessesFromDB.length > 0) {
+        loadGuessesFromDB(gridData, guessesFromDB);
+      }
+      setGridData(gridData);
+    }, [guessesFromDB]);
 
     const handleCellClick = useCallback(
       (cellData: CellData) => {

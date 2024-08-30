@@ -223,6 +223,16 @@ export function loadGuessesFromDB(
   gridData: GuessData,
   guessesFromDB: Array<{ row: number; col: number; guess: string }>
 ) {
+  // Reset all guesses to undefined
+  gridData.forEach((row) => {
+    row.forEach((cell) => {
+      if ((cell as UsedCellData).used) {
+        (cell as UsedCellData).guess = undefined;
+      }
+    });
+  });
+
+  // Load guesses from DB
   guessesFromDB.forEach((g) => {
     const { row, col, guess } = g;
     (gridData[row][col] as UsedCellData).guess = guess;

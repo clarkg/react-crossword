@@ -150,9 +150,13 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             return;
         }
         // update the gridData with the guess
-        setGridData((0, immer_1.default)((draft) => {
-            draft[row][col].guess = char;
-        }));
+        /*
+        setGridData(
+          produce((draft) => {
+            (draft[row][col] as UsedCellData).guess = char;
+          })
+        );
+        */
         if (onCellChange) {
             onCellChange(row, col, char);
         }
@@ -334,31 +338,20 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
     }, [bulkChange, handleSingleCharacter]);
     // When the clues *input* data changes, reset/reload the player data
     (0, react_1.useEffect)(() => {
-        // deep-clone the grid data...
-        const newGridData = masterGridData.map((row) => row.map((cell) => (Object.assign({}, cell))));
-        // Clear any existing guesses in the grid
-        newGridData.forEach((row) => {
-            row.forEach((cell) => {
-                if (cell.used) {
-                    cell.guess = undefined;
-                }
-            });
-        });
-        // deep-clone the clue data...
-        const newCluesData = {
-            across: masterClues.across.map((clue) => (Object.assign({}, clue))),
-            down: masterClues.down.map((clue) => (Object.assign({}, clue))),
-        };
-        if (guessesFromDB && guessesFromDB.length > 0) {
-            (0, util_1.loadGuessesFromDB)(newGridData, guessesFromDB);
+        // Check if masterGridData has different dimensions from gridData
+        if (masterGridData.length !== gridData.length ||
+            masterGridData[0].length !== gridData[0].length) {
+            if (guessesFromDB && guessesFromDB.length > 0) {
+                (0, util_1.loadGuessesFromDB)(masterGridData, guessesFromDB);
+            }
+            setGridData(masterGridData);
         }
-        setClues(newCluesData);
-        setGridData(newGridData);
+        setClues(masterClues);
         // Find the element with the lowest number in the 2D array newGridData
         let lowestNumberCell = null;
-        for (let row = 0; row < newGridData.length; row++) {
-            for (let col = 0; col < newGridData[row].length; col++) {
-                const cell = newGridData[row][col];
+        for (let row = 0; row < masterGridData.length; row++) {
+            for (let col = 0; col < masterGridData[row].length; col++) {
+                const cell = masterGridData[row][col];
                 if (cell.used && cell.number) {
                     if (!lowestNumberCell ||
                         parseInt(cell.number, 10) < parseInt(lowestNumberCell.number, 10)) {
@@ -376,13 +369,13 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             let lowestNumberDirection = 'across';
             const lowestNumber = lowestNumberCell.number;
             // Check across clues first
-            const acrossClue = newCluesData.across.find((clue) => clue.number === lowestNumber);
+            const acrossClue = masterClues.across.find((clue) => clue.number === lowestNumber);
             if (acrossClue) {
                 lowestNumberDirection = 'across';
             }
             else {
                 // If not found in across, check down clues
-                const downClue = newCluesData.down.find((clue) => clue.number === lowestNumber);
+                const downClue = masterClues.down.find((clue) => clue.number === lowestNumber);
                 if (downClue) {
                     lowestNumberDirection = 'down';
                 }
@@ -392,6 +385,12 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             focus();
         }
     }, [masterClues, masterGridData]);
+    (0, react_1.useEffect)(() => {
+        if (guessesFromDB && guessesFromDB.length > 0) {
+            (0, util_1.loadGuessesFromDB)(gridData, guessesFromDB);
+        }
+        setGridData(gridData);
+    }, [guessesFromDB]);
     const handleCellClick = (0, react_1.useCallback)((cellData) => {
         var _a;
         if (cellData.used) {
