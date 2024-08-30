@@ -335,10 +335,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         setBulkChange(bulkChange.length === 1 ? null : bulkChange.substring(1));
     }, [bulkChange, handleSingleCharacter]);
     // Memoize the result of createGridData
-    const gridInfo = (0, react_1.useMemo)(() => {
-        var _a;
-        return (0, util_1.createGridData)(data, (_a = finalTheme.allowNonSquare) !== null && _a !== void 0 ? _a : false);
-    }, [data, finalTheme.allowNonSquare]);
+    const gridInfo = (0, react_1.useMemo)(() => { var _a; return (0, util_1.createGridData)(data, (_a = finalTheme.allowNonSquare) !== null && _a !== void 0 ? _a : false); }, [data, finalTheme.allowNonSquare]);
     // When the clues *input* data changes, reset/reload the player data
     (0, react_1.useEffect)(() => {
         const { rows: numRows, cols: numCols, gridData: masterGridData, clues: masterClues, } = gridInfo;
@@ -349,7 +346,11 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         setCols(numCols);
         setGridData(masterGridData);
         setClues(masterClues);
-        // Find the element with the lowest number in the 2D array newGridData
+    }, [gridInfo, guessesFromDB]);
+    // Separate effect to handle focus and lowest number cell logic
+    (0, react_1.useEffect)(() => {
+        const { gridData: masterGridData, clues: masterClues } = gridInfo;
+        // Find the element with the lowest number in the 2D array masterGridData
         let lowestNumberCell = null;
         for (let row = 0; row < masterGridData.length; row++) {
             for (let col = 0; col < masterGridData[row].length; col++) {
@@ -386,7 +387,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             setCurrentDirection(lowestNumberDirection);
             focus();
         }
-    }, [gridInfo, guessesFromDB]);
+    }, [gridInfo]);
     const handleCellClick = (0, react_1.useCallback)((cellData) => {
         var _a;
         if (cellData.used) {

@@ -484,8 +484,10 @@ const CrosswordProvider = React.forwardRef<
     }, [bulkChange, handleSingleCharacter]);
 
     // Memoize the result of createGridData
-    const gridInfo = useMemo(() => createGridData(data, finalTheme.allowNonSquare ?? false), [data, finalTheme.allowNonSquare]);
-
+    const gridInfo = useMemo(
+      () => createGridData(data, finalTheme.allowNonSquare ?? false),
+      [data, finalTheme.allowNonSquare]
+    );
     // When the clues *input* data changes, reset/reload the player data
     useEffect(() => {
       const {
@@ -503,8 +505,13 @@ const CrosswordProvider = React.forwardRef<
       setCols(numCols);
       setGridData(masterGridData);
       setClues(masterClues);
+    }, [gridInfo, guessesFromDB]);
 
-      // Find the element with the lowest number in the 2D array newGridData
+    // Separate effect to handle focus and lowest number cell logic
+    useEffect(() => {
+      const { gridData: masterGridData, clues: masterClues } = gridInfo;
+
+      // Find the element with the lowest number in the 2D array masterGridData
       let lowestNumberCell: UsedCellData | null = null;
       for (let row = 0; row < masterGridData.length; row++) {
         for (let col = 0; col < masterGridData[row].length; col++) {
@@ -550,7 +557,7 @@ const CrosswordProvider = React.forwardRef<
         setCurrentDirection(lowestNumberDirection);
         focus();
       }
-    }, [gridInfo, guessesFromDB]);
+    }, [gridInfo]);
 
     const handleCellClick = useCallback(
       (cellData: CellData) => {
