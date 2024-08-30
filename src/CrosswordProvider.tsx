@@ -496,6 +496,8 @@ const CrosswordProvider = React.forwardRef<
     // When the clues *input* data changes, reset/reload the player data
     useEffect(() => {
       // Check if masterGridData has different dimensions from gridData
+      console.log('gridData', gridData);
+      console.log('masterGridData', masterGridData);
       if (
         gridData.length === 0 ||
         masterGridData.length !== gridData.length ||
