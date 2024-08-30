@@ -131,6 +131,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
     // This *internal* getCellData assumes that it's only ever asked for a valid
     // cell (one that's used).
     const getCellData = (0, react_1.useCallback)((row, col) => {
+        console.log('getCellData', row, col, rows, cols);
         if (row >= 0 && row < rows && col >= 0 && col < cols) {
             return gridData[row][col];
         }
@@ -341,6 +342,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         // player input guesses.  Let's see if we can keep the clues-input and
         // player data segregated.
         const { rows: numRows, cols: numCols, gridData: masterGridData, clues: masterClues, } = (0, util_1.createGridData)(data, (_a = finalTheme.allowNonSquare) !== null && _a !== void 0 ? _a : false);
+        console.log('masterGridData', masterGridData);
         setRows(numRows);
         setCols(numCols);
         setGridData(masterGridData);
@@ -382,8 +384,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             setCurrentDirection(lowestNumberDirection);
             focus();
         }
-    }, [data, finalTheme.allowNonSquare]);
+    }, [data, finalTheme.allowNonSquare, guessesFromDB]);
     (0, react_1.useEffect)(() => {
+        console.log("guessesFromDB", guessesFromDB);
         if (guessesFromDB && guessesFromDB.length > 0) {
             (0, util_1.loadGuessesFromDB)(gridData, guessesFromDB);
         }

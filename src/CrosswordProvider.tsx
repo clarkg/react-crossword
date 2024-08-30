@@ -219,6 +219,7 @@ const CrosswordProvider = React.forwardRef<
     // cell (one that's used).
     const getCellData = useCallback(
       (row: number, col: number) => {
+        console.log('getCellData', row, col, rows, cols);
         if (row >= 0 && row < rows && col >= 0 && col < cols) {
           return gridData[row][col];
         }
@@ -495,6 +496,8 @@ const CrosswordProvider = React.forwardRef<
         clues: masterClues,
       } = createGridData(data, finalTheme.allowNonSquare ?? false);
 
+      console.log('masterGridData', masterGridData);
+
       setRows(numRows);
       setCols(numCols);
       setGridData(masterGridData);
@@ -546,9 +549,10 @@ const CrosswordProvider = React.forwardRef<
         setCurrentDirection(lowestNumberDirection);
         focus();
       }
-    }, [data, finalTheme.allowNonSquare]);
+    }, [data, finalTheme.allowNonSquare, guessesFromDB]);
 
     useEffect(() => {
+      console.log('guessesFromDB', guessesFromDB);
       if (guessesFromDB && guessesFromDB.length > 0) {
         loadGuessesFromDB(gridData, guessesFromDB);
       }
