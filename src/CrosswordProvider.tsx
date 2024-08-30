@@ -497,6 +497,7 @@ const CrosswordProvider = React.forwardRef<
     useEffect(() => {
       // Check if masterGridData has different dimensions from gridData
       if (
+        gridData.length === 0 ||
         masterGridData.length !== gridData.length ||
         masterGridData[0].length !== gridData[0].length
       ) {

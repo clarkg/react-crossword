@@ -162,8 +162,8 @@ function serializeGuesses(gridData) {
 exports.serializeGuesses = serializeGuesses;
 function loadGuessesFromDB(gridData, guessesFromDB) {
     // Reset all guesses to undefined
-    gridData.forEach(row => {
-        row.forEach(cell => {
+    gridData.forEach((row) => {
+        row.forEach((cell) => {
             if (cell.used) {
                 cell.guess = undefined;
             }
