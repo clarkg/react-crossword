@@ -145,9 +145,13 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         if (cell.guess === char) {
             return;
         }
-        setGridData((0, immer_1.default)((draft) => {
-            draft[row][col].guess = char;
-        }));
+        /*
+        setGridData(
+          produce((draft) => {
+            (draft[row][col] as UsedCellData).guess = char;
+          })
+        );
+        */
         if (onCellChange) {
             onCellChange(row, col, char);
         }

@@ -243,11 +243,13 @@ const CrosswordProvider = React.forwardRef<
           return;
         }
 
+        /*
         setGridData(
           produce((draft) => {
             (draft[row][col] as UsedCellData).guess = char;
           })
         );
+        */
 
         if (onCellChange) {
           onCellChange(row, col, char);
