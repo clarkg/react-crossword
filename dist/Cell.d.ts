@@ -52,7 +52,7 @@ declare namespace Cell {
     var defaultProps: {
         focus: boolean;
         highlight: boolean;
-        onClick: null;
+        onClick: any;
     };
 }
 export default Cell;

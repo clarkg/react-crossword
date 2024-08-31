@@ -1,4 +1,3 @@
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertIpuz = exports.isSupportedIpuz = exports.isIpuzData = exports.useIpuz = void 0;
 const react_1 = require("react");

@@ -70,7 +70,7 @@ export interface IpuzInput {
     enumerations?: unknown;
     misses?: unknown;
 }
-export declare function useIpuz(data: unknown): CluesInputOriginal | null;
+export declare function useIpuz(data: unknown): CluesInputOriginal;
 /** Inspects a value to see if it looks like IPUZ data. */
 export declare function isIpuzData(data: unknown): data is IpuzInput;
 /** Checks to see whether the IPUZ data is supported. */

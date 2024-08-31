@@ -192,22 +192,22 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
      * input format</a> for details.
      */
     data: CluesInput;
-    guessesFromDB?: {
+    guessesFromDB?: Array<{
         row: number;
         col: number;
         guess: string;
-    }[] | undefined;
+    }>;
     /**
      * callback function called when a cell changes (e.g. when the user types a
      * letter); called with `(row, col, char)` arguments, where the `row` and
      * `column` are the 0-based position of the cell, and `char` is the
      * character typed (already massaged into upper-case)
      */
-    onCellChange?: ((row: number, col: number, char: string) => void) | undefined;
-    onGridChange?: ((gridData: GridData) => void) | undefined;
+    onCellChange?: (row: number, col: number, char: string) => void;
+    onGridChange?: (gridData: GridData) => void;
     /**
      * callback function called when a clue is selected
      */
-    onClueSelected?: ((direction: Direction, number: string) => void) | undefined;
+    onClueSelected?: (direction: Direction, number: string) => void;
 } & React.RefAttributes<CrosswordProviderImperative>>;
 export default CrosswordProvider;

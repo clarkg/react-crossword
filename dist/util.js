@@ -1,4 +1,3 @@
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findCorrectAnswers = exports.deserializeGuesses = exports.loadGuesses = exports.loadGuessesFromDB = exports.serializeGuesses = exports.saveGuesses = exports.clearGuesses = exports.byNumber = exports.createGridData = exports.fillClues = exports.createEmptyGrid = exports.calculateExtents = exports.otherDirection = exports.isAcross = exports.bothDirections = void 0;
 const directionInfo = {

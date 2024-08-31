@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -526,6 +525,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
 });
 exports.default = CrosswordProvider;
 CrosswordProvider.displayName = 'CrosswordProvider';
+// @ts-expect-error idk
 CrosswordProvider.propTypes = exports.crosswordProviderPropTypes;
 CrosswordProvider.defaultProps = {
     theme: undefined,

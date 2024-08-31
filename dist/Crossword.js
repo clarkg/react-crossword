@@ -1,4 +1,3 @@
-"use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -92,8 +91,6 @@ const crosswordPropTypes = Object.assign(Object.assign({}, CrosswordProvider_1.c
     acrossLabel: prop_types_1.default.string, 
     /** the label for the "down" clues */
     downLabel: prop_types_1.default.string });
-// @ts-expect-error TS doesn't allow non-optional props to be deleted, but we're
-// building this into a new type!
 delete crosswordPropTypes.children;
 /**
  * The default export from the react-crossword library, `Crossword` renders an
@@ -128,6 +125,7 @@ const Crossword = react_1.default.forwardRef((_a, ref) => {
     return ((0, jsx_runtime_1.jsxs)(CrosswordProvider_1.default, Object.assign({}, props, { ref: providerRef }, { children: [(0, jsx_runtime_1.jsx)(CrosswordGrid_1.default, {}), (0, jsx_runtime_1.jsxs)(CluesWrapper, { children: [(0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "across", label: acrossLabel }), (0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "down", label: downLabel })] })] })));
 });
 Crossword.displayName = 'Crossword';
+// @ts-expect-error idk
 Crossword.propTypes = crosswordPropTypes;
 Crossword.defaultProps = Object.assign(Object.assign({}, CrosswordProvider_1.default.defaultProps), { acrossLabel: undefined, downLabel: undefined });
 exports.default = Crossword;

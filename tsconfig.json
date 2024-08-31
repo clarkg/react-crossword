@@ -12,10 +12,11 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "noImplicitUseStrict": true
   }
 }

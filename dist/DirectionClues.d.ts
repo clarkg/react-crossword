@@ -19,7 +19,7 @@ declare namespace DirectionClues {
         label: PropTypes.Requireable<string>;
     };
     var defaultProps: {
-        label: undefined;
+        label: any;
     };
 }
 export default DirectionClues;

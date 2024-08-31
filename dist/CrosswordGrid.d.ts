@@ -53,7 +53,7 @@ declare namespace CrosswordGrid {
         }>>;
     };
     var defaultProps: {
-        theme: null;
+        theme: any;
     };
 }
 export default CrosswordGrid;

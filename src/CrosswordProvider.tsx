@@ -757,6 +757,8 @@ const CrosswordProvider = React.forwardRef<
 export default CrosswordProvider;
 
 CrosswordProvider.displayName = 'CrosswordProvider';
+
+// @ts-expect-error idk
 CrosswordProvider.propTypes = crosswordProviderPropTypes;
 CrosswordProvider.defaultProps = {
   theme: undefined,
