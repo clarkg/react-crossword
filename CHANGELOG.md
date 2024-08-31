@@ -1,128 +1,110 @@
 # [5.2.0](https://github.com/JaredReisinger/react-crossword/compare/v5.1.0...v5.2.0) (2022-12-16)
 
-
 ### Features
 
-* add basic IPUZ support ([7cfe47b](https://github.com/JaredReisinger/react-crossword/commit/7cfe47b4c48dcfe70ff48a94ffa45dfcf755d966)), closes [#414](https://github.com/JaredReisinger/react-crossword/issues/414)
+- add basic IPUZ support ([7cfe47b](https://github.com/JaredReisinger/react-crossword/commit/7cfe47b4c48dcfe70ff48a94ffa45dfcf755d966)), closes [#414](https://github.com/JaredReisinger/react-crossword/issues/414)
 
 # [5.1.0](https://github.com/JaredReisinger/react-crossword/compare/v5.0.0...v5.1.0) (2022-12-13)
 
-
 ### Bug Fixes
 
-* check answer correctness when loading/reloading guesses ([40b9cd5](https://github.com/JaredReisinger/react-crossword/commit/40b9cd5b206c4524b3cad32229f1cb9d31ab7d4e)), closes [#271](https://github.com/JaredReisinger/react-crossword/issues/271)
-
+- check answer correctness when loading/reloading guesses ([40b9cd5](https://github.com/JaredReisinger/react-crossword/commit/40b9cd5b206c4524b3cad32229f1cb9d31ab7d4e)), closes [#271](https://github.com/JaredReisinger/react-crossword/issues/271)
 
 ### Features
 
-* allow non-square rendering ([74a608e](https://github.com/JaredReisinger/react-crossword/commit/74a608e877f5643da1ca12ad9c0803d17b748f38)), closes [#17](https://github.com/JaredReisinger/react-crossword/issues/17)
+- allow non-square rendering ([74a608e](https://github.com/JaredReisinger/react-crossword/commit/74a608e877f5643da1ca12ad9c0803d17b748f38)), closes [#17](https://github.com/JaredReisinger/react-crossword/issues/17)
 
 # [5.0.0](https://github.com/JaredReisinger/react-crossword/compare/v4.3.2...v5.0.0) (2022-12-03)
 
-
 ### Bug Fixes
 
-* **depedencies:** update all dependencies ([57da3b5](https://github.com/JaredReisinger/react-crossword/commit/57da3b55903ad94ed2034dd7e8b23608bb8189d9))
-* **dependencies:** update dependencies (some time ago!) ([90cb96b](https://github.com/JaredReisinger/react-crossword/commit/90cb96b0bffaeeaa92b455a65c5f64d3d7e0f224))
-* **example:** fix up example to use updated crossword component ([5b08cab](https://github.com/JaredReisinger/react-crossword/commit/5b08cab8edccc4c022b774b0060a2ce945e737c3))
-* fix one lingering typescript error ([1a2af83](https://github.com/JaredReisinger/react-crossword/commit/1a2af83107fdc7b5d06c1d659ca626354e9d7692))
-* missed saving one file! ([9430ea3](https://github.com/JaredReisinger/react-crossword/commit/9430ea3ca82d716b3e778601a828e01fa805661d))
-
+- **depedencies:** update all dependencies ([57da3b5](https://github.com/JaredReisinger/react-crossword/commit/57da3b55903ad94ed2034dd7e8b23608bb8189d9))
+- **dependencies:** update dependencies (some time ago!) ([90cb96b](https://github.com/JaredReisinger/react-crossword/commit/90cb96b0bffaeeaa92b455a65c5f64d3d7e0f224))
+- **example:** fix up example to use updated crossword component ([5b08cab](https://github.com/JaredReisinger/react-crossword/commit/5b08cab8edccc4c022b774b0060a2ce945e737c3))
+- fix one lingering typescript error ([1a2af83](https://github.com/JaredReisinger/react-crossword/commit/1a2af83107fdc7b5d06c1d659ca626354e9d7692))
+- missed saving one file! ([9430ea3](https://github.com/JaredReisinger/react-crossword/commit/9430ea3ca82d716b3e778601a828e01fa805661d))
 
 ### BREAKING CHANGES
 
-* **depedencies:** Now requires React >=18.2.0 and Node >= 18.7.0
+- **depedencies:** Now requires React >=18.2.0 and Node >= 18.7.0
 
 ## [4.3.2](https://github.com/JaredReisinger/react-crossword/compare/v4.3.1...v4.3.2) (2022-03-10)
 
-
 ### Bug Fixes
 
-* **dependencies:** update all dependencies ([c48d609](https://github.com/JaredReisinger/react-crossword/commit/c48d609ca0d7ee81e42273a42d50380d0488257b))
+- **dependencies:** update all dependencies ([c48d609](https://github.com/JaredReisinger/react-crossword/commit/c48d609ca0d7ee81e42273a42d50380d0488257b))
 
 ## [4.3.1](https://github.com/JaredReisinger/react-crossword/compare/v4.3.0...v4.3.1) (2022-03-09)
 
-
 ### Bug Fixes
 
-* **dependencies:** update all dependencies ([de7e5fd](https://github.com/JaredReisinger/react-crossword/commit/de7e5fde70488d59abb4d6fb026e718e5b685429))
+- **dependencies:** update all dependencies ([de7e5fd](https://github.com/JaredReisinger/react-crossword/commit/de7e5fde70488d59abb4d6fb026e718e5b685429))
 
 # [4.3.0](https://github.com/JaredReisinger/react-crossword/compare/v4.2.0...v4.3.0) (2022-02-26)
 
-
 ### Features
 
-* add per-answer "complete" and "incomplete" callbacks, and tweak crossword-level ([d761a75](https://github.com/JaredReisinger/react-crossword/commit/d761a756ef62e05a22855a0f6ede166da06340c3)), closes [#131](https://github.com/JaredReisinger/react-crossword/issues/131)
+- add per-answer "complete" and "incomplete" callbacks, and tweak crossword-level ([d761a75](https://github.com/JaredReisinger/react-crossword/commit/d761a756ef62e05a22855a0f6ede166da06340c3)), closes [#131](https://github.com/JaredReisinger/react-crossword/issues/131)
 
 # [4.2.0](https://github.com/JaredReisinger/react-crossword/compare/v4.1.2...v4.2.0) (2022-02-25)
 
-
 ### Features
 
-* add props for across/down clue labels ([c41c64d](https://github.com/JaredReisinger/react-crossword/commit/c41c64d2b1dd124a78c63787133abc643edcad65)), closes [#132](https://github.com/JaredReisinger/react-crossword/issues/132)
-* **storage:** add `storageKey` for custom lovalStorage key ([d3d9334](https://github.com/JaredReisinger/react-crossword/commit/d3d93343ce2d99df05d2400777d85f777ccd1a47)), closes [#142](https://github.com/JaredReisinger/react-crossword/issues/142)
+- add props for across/down clue labels ([c41c64d](https://github.com/JaredReisinger/react-crossword/commit/c41c64d2b1dd124a78c63787133abc643edcad65)), closes [#132](https://github.com/JaredReisinger/react-crossword/issues/132)
+- **storage:** add `storageKey` for custom lovalStorage key ([d3d9334](https://github.com/JaredReisinger/react-crossword/commit/d3d93343ce2d99df05d2400777d85f777ccd1a47)), closes [#142](https://github.com/JaredReisinger/react-crossword/issues/142)
 
 ## [4.1.2](https://github.com/JaredReisinger/react-crossword/compare/v4.1.1...v4.1.2) (2022-02-25)
 
-
 ### Bug Fixes
 
-* **dependencies:** npm audit fix ([ccadd2e](https://github.com/JaredReisinger/react-crossword/commit/ccadd2e1bfdfdc2f3ea9685ec29507fe4c7bf0cc))
-* **dependencies:** update all dependencies ([1bb4f16](https://github.com/JaredReisinger/react-crossword/commit/1bb4f1686977af68509c2f66a243c26e6ea7ec9f))
+- **dependencies:** npm audit fix ([ccadd2e](https://github.com/JaredReisinger/react-crossword/commit/ccadd2e1bfdfdc2f3ea9685ec29507fe4c7bf0cc))
+- **dependencies:** update all dependencies ([1bb4f16](https://github.com/JaredReisinger/react-crossword/commit/1bb4f1686977af68509c2f66a243c26e6ea7ec9f))
 
 ## [4.1.1](https://github.com/JaredReisinger/react-crossword/compare/v4.1.0...v4.1.1) (2022-01-04)
 
-
 ### Bug Fixes
 
-* apply dev branch updates to main ([a8add9a](https://github.com/JaredReisinger/react-crossword/commit/a8add9a76ce03c587df24c389b5d0504784bdcb9)), closes [#164](https://github.com/JaredReisinger/react-crossword/issues/164)
+- apply dev branch updates to main ([a8add9a](https://github.com/JaredReisinger/react-crossword/commit/a8add9a76ce03c587df24c389b5d0504784bdcb9)), closes [#164](https://github.com/JaredReisinger/react-crossword/issues/164)
 
 # [4.1.0](https://github.com/JaredReisinger/react-crossword/compare/v4.0.2...v4.1.0) (2022-01-03)
 
-
 ### Features
 
-* add `setGuess(row, col, guess)` imperative ([5cf5110](https://github.com/JaredReisinger/react-crossword/commit/5cf51103e4530574631cc136a8cccb2a6a57992d)), closes [#104](https://github.com/JaredReisinger/react-crossword/issues/104) [#104](https://github.com/JaredReisinger/react-crossword/issues/104)
+- add `setGuess(row, col, guess)` imperative ([5cf5110](https://github.com/JaredReisinger/react-crossword/commit/5cf51103e4530574631cc136a8cccb2a6a57992d)), closes [#104](https://github.com/JaredReisinger/react-crossword/issues/104) [#104](https://github.com/JaredReisinger/react-crossword/issues/104)
 
 ## [4.0.2](https://github.com/JaredReisinger/react-crossword/compare/v4.0.1...v4.0.2) (2022-01-03)
 
-
 ### Bug Fixes
 
-* update homepage link in package.json to point to new docs location ([f284c63](https://github.com/JaredReisinger/react-crossword/commit/f284c6398b586bb6f860ea65dc0e913600e98764))
+- update homepage link in package.json to point to new docs location ([f284c63](https://github.com/JaredReisinger/react-crossword/commit/f284c6398b586bb6f860ea65dc0e913600e98764))
 
 ## [4.0.1](https://github.com/JaredReisinger/react-crossword/compare/v4.0.0...v4.0.1) (2022-01-03)
 
-
 ### Bug Fixes
 
-* update dev dependencies, force release to update README ([f59241e](https://github.com/JaredReisinger/react-crossword/commit/f59241eb7ab2cd6fb1b240e46f2067c5246e3f99))
+- update dev dependencies, force release to update README ([f59241e](https://github.com/JaredReisinger/react-crossword/commit/f59241eb7ab2cd6fb1b240e46f2067c5246e3f99))
 
 # [4.0.0](https://github.com/JaredReisinger/react-crossword/compare/v3.1.0...v4.0.0) (2022-01-03)
 
-
 ### Documentation
 
-* **readme:** fix README, force breaking change ([08d758e](https://github.com/JaredReisinger/react-crossword/commit/08d758e7a506a8e548dcad0eccb9b6858baae043))
-
+- **readme:** fix README, force breaking change ([08d758e](https://github.com/JaredReisinger/react-crossword/commit/08d758e7a506a8e548dcad0eccb9b6858baae043))
 
 ### BREAKING CHANGES
 
-* **readme:** The refactoring (a previous commit) was intended to reflect a breaking change...
-doing that now.
+- **readme:** The refactoring (a previous commit) was intended to reflect a breaking change...
+  doing that now.
 
 # [3.1.0](https://github.com/JaredReisinger/react-crossword/compare/v3.0.0...v3.1.0) (2022-01-03)
 
-
 ### Bug Fixes
 
-* **components:** changed DirectionClues to use CrosswordContext ([a3a83ef](https://github.com/JaredReisinger/react-crossword/commit/a3a83efb68bb3677942e4e0471e9e939b6f121d7))
-* **tests:** increase test coverage, fix components as needed ([5baf1c4](https://github.com/JaredReisinger/react-crossword/commit/5baf1c458c317f9e760e3c5ad5fae6144695dd11))
-
+- **components:** changed DirectionClues to use CrosswordContext ([a3a83ef](https://github.com/JaredReisinger/react-crossword/commit/a3a83efb68bb3677942e4e0471e9e939b6f121d7))
+- **tests:** increase test coverage, fix components as needed ([5baf1c4](https://github.com/JaredReisinger/react-crossword/commit/5baf1c458c317f9e760e3c5ad5fae6144695dd11))
 
 ### Features
 
-* **components:** begin factoring of logic/rendering ([20589d4](https://github.com/JaredReisinger/react-crossword/commit/20589d4fa23bc2513eb63f8cbce8646f658b2166)), closes [#140](https://github.com/JaredReisinger/react-crossword/issues/140)
+- **components:** begin factoring of logic/rendering ([20589d4](https://github.com/JaredReisinger/react-crossword/commit/20589d4fa23bc2513eb63f8cbce8646f658b2166)), closes [#140](https://github.com/JaredReisinger/react-crossword/issues/140)
 
 # [3.0.0](https://github.com/JaredReisinger/react-crossword/compare/v2.3.1...v3.0.0) (2021-12-31)
 

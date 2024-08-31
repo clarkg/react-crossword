@@ -219,7 +219,6 @@ const CrosswordProvider = React.forwardRef<
     // cell (one that's used).
     const getCellData = useCallback(
       (row: number, col: number) => {
-        console.log('getCellData', row, col, rows, cols);
         if (row >= 0 && row < rows && col >= 0 && col < cols) {
           return gridData[row][col];
         }
@@ -244,14 +243,11 @@ const CrosswordProvider = React.forwardRef<
           return;
         }
 
-        // update the gridData with the guess
-        /*
         setGridData(
           produce((draft) => {
             (draft[row][col] as UsedCellData).guess = char;
           })
         );
-        */
 
         if (onCellChange) {
           onCellChange(row, col, char);
