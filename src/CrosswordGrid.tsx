@@ -13,7 +13,7 @@ import styled, { ThemeContext, ThemeProvider } from 'styled-components';
 import Cell from './Cell';
 
 import { CrosswordContext, CrosswordSizeContext } from './context';
-import { FocusHandler } from './types';
+import { FocusHandler, GridData } from './types';
 
 // import {
 // } from './types';
@@ -40,6 +40,8 @@ const GridWrapper = styled.div.attrs((/* props */) => ({
 `;
 
 const CrosswordGridPropTypes = {
+  numRows: PropTypes.number.isRequired,
+  numCols: PropTypes.number.isRequired,
   /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
   theme: PropTypes.shape({
     /** browser-width at which the clues go from showing beneath the grid to showing beside the grid */
@@ -64,7 +66,9 @@ const CrosswordGridPropTypes = {
   }),
 };
 
-export type CrosswordGridProps = InferProps<typeof CrosswordGridPropTypes>;
+export type CrosswordGridProps = InferProps<typeof CrosswordGridPropTypes> & {
+  gridData: GridData;
+};
 
 // export interface CrosswordGridImperative {
 //   /**
@@ -76,11 +80,13 @@ export type CrosswordGridProps = InferProps<typeof CrosswordGridPropTypes>;
 /**
  * The rendering component for the crossword grid itself.
  */
-export default function CrosswordGrid({ theme }: CrosswordGridProps) {
+export default function CrosswordGrid({
+  numRows,
+  numCols,
+  gridData,
+  theme,
+}: CrosswordGridProps) {
   const {
-    numRows,
-    numCols,
-    gridData,
     handleInputKeyDown,
     handleInputChange,
     handleCellClick,

@@ -1,17 +1,6 @@
-import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-// import styled from 'styled-components';
-
-import { CrosswordContext } from './context';
-import type { Direction, EnhancedProps } from './types';
-
 import Clue from './Clue';
-
-// interface ClueInfo {
-//   number: string;
-//   clue: string;
-//   correct?: boolean;
-// }
+import type { Direction, EnhancedProps } from './types';
 
 const directionCluesPropTypes = {
   /** direction of this list of clues ("across" or "down") */
@@ -19,6 +8,14 @@ const directionCluesPropTypes = {
 
   /** a label to use instead of the (English) default */
   label: PropTypes.string,
+
+  clues: PropTypes.arrayOf(
+    PropTypes.shape({
+      number: PropTypes.string.isRequired,
+      clue: PropTypes.string.isRequired,
+      correct: PropTypes.bool,
+    })
+  ).isRequired,
 };
 
 export type DirectionCluesProps = EnhancedProps<
@@ -29,9 +26,8 @@ export type DirectionCluesProps = EnhancedProps<
 export default function DirectionClues({
   direction,
   label,
+  clues,
 }: DirectionCluesProps) {
-  const { clues } = useContext(CrosswordContext);
-
   return (
     <div className="direction">
       {/* use something other than h3? */}

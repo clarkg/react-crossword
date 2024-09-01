@@ -1,6 +1,9 @@
 /// <reference types="react" />
 import PropTypes, { InferProps } from 'prop-types';
+import { GridData } from './types';
 declare const CrosswordGridPropTypes: {
+    numRows: PropTypes.Validator<number>;
+    numCols: PropTypes.Validator<number>;
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         /** browser-width at which the clues go from showing beneath the grid to showing beside the grid */
@@ -23,13 +26,17 @@ declare const CrosswordGridPropTypes: {
         highlightBackground: PropTypes.Requireable<string>;
     }>>;
 };
-export type CrosswordGridProps = InferProps<typeof CrosswordGridPropTypes>;
+export type CrosswordGridProps = InferProps<typeof CrosswordGridPropTypes> & {
+    gridData: GridData;
+};
 /**
  * The rendering component for the crossword grid itself.
  */
-declare function CrosswordGrid({ theme }: CrosswordGridProps): JSX.Element;
+declare function CrosswordGrid({ numRows, numCols, gridData, theme, }: CrosswordGridProps): JSX.Element;
 declare namespace CrosswordGrid {
     var propTypes: {
+        numRows: PropTypes.Validator<number>;
+        numCols: PropTypes.Validator<number>;
         /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
         theme: PropTypes.Requireable<PropTypes.InferProps<{
             /** browser-width at which the clues go from showing beneath the grid to showing beside the grid */

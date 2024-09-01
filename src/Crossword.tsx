@@ -122,7 +122,7 @@ const Crossword = React.forwardRef<CrosswordImperative, CrosswordProps>(
 
     return (
       <CrosswordProvider {...props} ref={providerRef}>
-        <CrosswordGrid />
+        <CrosswordGrid gridData={providerRef.current!.getGridData()} />
         <CluesWrapper>
           <DirectionClues direction="across" label={acrossLabel} />
           <DirectionClues direction="down" label={downLabel} />

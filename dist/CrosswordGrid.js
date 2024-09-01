@@ -53,6 +53,8 @@ const GridWrapper = styled_components_1.default.div.attrs(( /* props */) => ({
   flex: 2 1 50%;
 `;
 const CrosswordGridPropTypes = {
+    numRows: prop_types_1.default.number.isRequired,
+    numCols: prop_types_1.default.number.isRequired,
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: prop_types_1.default.shape({
         /** browser-width at which the clues go from showing beneath the grid to showing beside the grid */
@@ -84,8 +86,8 @@ const CrosswordGridPropTypes = {
 /**
  * The rendering component for the crossword grid itself.
  */
-function CrosswordGrid({ theme }) {
-    const { numRows, numCols, gridData, handleInputKeyDown, handleInputChange, handleCellClick, handleInputClick, registerFocusHandler, focused, selectedPosition: { row: focusedRow, col: focusedCol }, selectedDirection: currentDirection, selectedNumber: currentNumber, } = (0, react_1.useContext)(context_1.CrosswordContext);
+function CrosswordGrid({ numRows, numCols, gridData, theme, }) {
+    const { handleInputKeyDown, handleInputChange, handleCellClick, handleInputClick, registerFocusHandler, focused, selectedPosition: { row: focusedRow, col: focusedCol }, selectedDirection: currentDirection, selectedNumber: currentNumber, } = (0, react_1.useContext)(context_1.CrosswordContext);
     const inputRef = (0, react_1.useRef)(null);
     const contextTheme = (0, react_1.useContext)(styled_components_1.ThemeContext);
     // focus and movement

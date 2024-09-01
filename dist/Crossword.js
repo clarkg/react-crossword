@@ -122,7 +122,7 @@ const Crossword = react_1.default.forwardRef((_a, ref) => {
          */
         getGridData: () => providerRef.current.getGridData(),
     }), [providerRef]);
-    return ((0, jsx_runtime_1.jsxs)(CrosswordProvider_1.default, Object.assign({}, props, { ref: providerRef }, { children: [(0, jsx_runtime_1.jsx)(CrosswordGrid_1.default, {}), (0, jsx_runtime_1.jsxs)(CluesWrapper, { children: [(0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "across", label: acrossLabel }), (0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "down", label: downLabel })] })] })));
+    return ((0, jsx_runtime_1.jsxs)(CrosswordProvider_1.default, Object.assign({}, props, { ref: providerRef }, { children: [(0, jsx_runtime_1.jsx)(CrosswordGrid_1.default, { gridData: providerRef.current.getGridData() }), (0, jsx_runtime_1.jsxs)(CluesWrapper, { children: [(0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "across", label: acrossLabel }), (0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "down", label: downLabel })] })] })));
 });
 Crossword.displayName = 'Crossword';
 // @ts-expect-error idk
