@@ -1,5 +1,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findCorrectAnswers = exports.deserializeGuesses = exports.loadGuesses = exports.loadGuessesFromDB = exports.serializeGuesses = exports.saveGuesses = exports.clearGuesses = exports.byNumber = exports.createGridFilledWithClues = exports.createCluesDataAndFillGridWithClues = exports.createEmptyGridForClues = exports.fillClues = exports.transformCluesInputToCluesData = exports.transformCluesInputToCluesDataForDirection = exports.createEmptyGrid = exports.calculateExtents = exports.otherDirection = exports.isAcross = exports.bothDirections = void 0;
+exports.loadGuessesFromDB = exports.byNumber = exports.createGridFilledWithClues = exports.createCluesDataAndFillGridWithClues = exports.createEmptyGridForClues = exports.fillClues = exports.transformCluesInputToCluesData = exports.transformCluesInputToCluesDataForDirection = exports.createEmptyGrid = exports.calculateExtents = exports.otherDirection = exports.isAcross = exports.bothDirections = void 0;
 const directionInfo = {
     across: {
         primary: 'col',
@@ -42,16 +42,6 @@ function calculateExtents(data, direction) {
     return rowColMax;
 }
 exports.calculateExtents = calculateExtents;
-// const emptyCellData: Partial<CellData> = {
-//   used: false,
-//   // number: undefined, // null,
-//   // answer: '',
-//   // guess: '',
-//   // row: r,
-//   // col: c,
-//   // across: '', //null,
-//   // down: '', //null,
-// } as const;
 function createEmptyGrid(rows, cols) {
     const gridData = Array(rows);
     // Rather than [x][y] in column-major order, the cells are indexed as
@@ -153,38 +143,6 @@ function byNumber(a, b) {
     return aNum - bNum;
 }
 exports.byNumber = byNumber;
-function clearGuesses(storageKey) {
-    if (!window.localStorage) {
-        return;
-    }
-    window.localStorage.removeItem(storageKey);
-}
-exports.clearGuesses = clearGuesses;
-function saveGuesses(gridData, storageKey) {
-    const { localStorage } = window;
-    if (!localStorage) {
-        return;
-    }
-    const guesses = serializeGuesses(gridData);
-    const saveData = {
-        date: Date.now(),
-        guesses,
-    };
-    localStorage.setItem(storageKey, JSON.stringify(saveData));
-}
-exports.saveGuesses = saveGuesses;
-function serializeGuesses(gridData) {
-    const guesses = gridData.reduce((memo, row, r) => row.reduce((memoInner, cellData, c) => {
-        var _a;
-        const { guess } = cellData;
-        if (guess !== '') {
-            memoInner[`${r}_${c}`] = (_a = cellData.guess) !== null && _a !== void 0 ? _a : '';
-        }
-        return memoInner;
-    }, memo), {});
-    return guesses;
-}
-exports.serializeGuesses = serializeGuesses;
 function loadGuessesFromDB(gridData, guessesFromDB) {
     // Reset all guesses to undefined
     gridData.forEach((row) => {
@@ -201,54 +159,31 @@ function loadGuessesFromDB(gridData, guessesFromDB) {
     });
 }
 exports.loadGuessesFromDB = loadGuessesFromDB;
-function loadGuesses(gridData, storageKey) {
-    const { localStorage } = window;
-    if (!localStorage) {
-        return;
-    }
-    const saveRaw = localStorage.getItem(storageKey);
-    if (!saveRaw) {
-        return;
-    }
-    const saveData = JSON.parse(saveRaw);
-    // TODO: check date for expiration?
-    deserializeGuesses(gridData, saveData.guesses);
-}
-exports.loadGuesses = loadGuesses;
-function deserializeGuesses(gridData, guesses) {
-    Object.entries(guesses).forEach(([key, val]) => {
-        const [rStr, cStr] = key.split('_');
-        const r = parseInt(rStr, 10);
-        const c = parseInt(cStr, 10);
-        // ignore any out-of-bounds guesses!
-        if (r <= gridData.length - 1 && c <= gridData[0].length - 1) {
-            gridData[r][c].guess = val;
+/*
+export function findCorrectAnswers(data: CluesInput, gridData: GuessData) {
+  const correctAnswers: AnswerTuple[] = [];
+
+  bothDirections.forEach((direction) => {
+    const across = isAcross(direction);
+    Object.entries(data[direction]).forEach(([num, info]) => {
+      const { row, col } = info;
+      let correct = true;
+      for (let i = 0; i < info.answer.length; i++) {
+        const r = across ? row : row + i;
+        const c = across ? col + i : col;
+        if ((gridData[r][c] as UsedCellData).guess !== info.answer[i]) {
+          correct = false;
+          break;
         }
+      }
+      if (correct) {
+        // same args as notifyCorrect: direction, number, answer
+        correctAnswers.push([direction, num, info.answer]);
+      }
     });
+  });
+
+  return correctAnswers;
 }
-exports.deserializeGuesses = deserializeGuesses;
-function findCorrectAnswers(data, gridData) {
-    const correctAnswers = [];
-    exports.bothDirections.forEach((direction) => {
-        const across = isAcross(direction);
-        Object.entries(data[direction]).forEach(([num, info]) => {
-            const { row, col } = info;
-            let correct = true;
-            for (let i = 0; i < info.answer.length; i++) {
-                const r = across ? row : row + i;
-                const c = across ? col + i : col;
-                if (gridData[r][c].guess !== info.answer[i]) {
-                    correct = false;
-                    break;
-                }
-            }
-            if (correct) {
-                // same args as notifyCorrect: direction, number, answer
-                correctAnswers.push([direction, num, info.answer]);
-            }
-        });
-    });
-    return correctAnswers;
-}
-exports.findCorrectAnswers = findCorrectAnswers;
+*/
 //# sourceMappingURL=util.js.map

@@ -8,5 +8,6 @@ import CrosswordProvider, { CrosswordProviderImperative, CrosswordProviderProps 
 import { CrosswordContext, CrosswordSizeContext } from './context';
 import { AnswerTuple, CluesInput, CellData, GridPosition } from './types';
 import { useIpuz } from './ipuz';
-export { Cell, Clue, DirectionClues, Crossword, CrosswordImperative, CrosswordProps, CrosswordGrid, CrosswordGridProps, CrosswordProvider, CrosswordProviderImperative, CrosswordProviderProps, CrosswordContext, CrosswordSizeContext, AnswerTuple, CluesInput, CellData, GridPosition, ThemeProvider, useIpuz, };
+import * as util from './util';
+export { Cell, Clue, DirectionClues, Crossword, CrosswordImperative, CrosswordProps, CrosswordGrid, CrosswordGridProps, CrosswordProvider, CrosswordProviderImperative, CrosswordProviderProps, CrosswordContext, CrosswordSizeContext, AnswerTuple, CluesInput, CellData, GridPosition, ThemeProvider, useIpuz, util, };
 export default Crossword;

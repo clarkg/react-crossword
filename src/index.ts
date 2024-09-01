@@ -27,6 +27,8 @@ import { AnswerTuple, CluesInput, CellData, GridPosition } from './types';
 
 import { useIpuz } from './ipuz';
 
+import * as util from './util';
+
 export {
   Cell,
   Clue,
@@ -48,6 +50,7 @@ export {
   GridPosition,
   ThemeProvider,
   useIpuz,
+  util,
 };
 
 export default Crossword;

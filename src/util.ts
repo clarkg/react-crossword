@@ -1,5 +1,4 @@
 import type {
-  AnswerTuple,
   CellData,
   CluesData,
   CluesInput,
@@ -66,17 +65,6 @@ export function calculateExtents(data: CluesInput, direction: Direction) {
 
   return rowColMax;
 }
-
-// const emptyCellData: Partial<CellData> = {
-//   used: false,
-//   // number: undefined, // null,
-//   // answer: '',
-//   // guess: '',
-//   // row: r,
-//   // col: c,
-//   // across: '', //null,
-//   // down: '', //null,
-// } as const;
 
 export function createEmptyGrid(rows: number, cols: number) {
   const gridData: GridData = Array(rows);
@@ -226,46 +214,6 @@ export function byNumber(a: HasNumber, b: HasNumber) {
 // Guesses *really* only needs the "guess" property...
 export type GuessData = ({ guess?: string } | CellData)[][];
 
-export function clearGuesses(storageKey: string) {
-  if (!window.localStorage) {
-    return;
-  }
-
-  window.localStorage.removeItem(storageKey);
-}
-
-export function saveGuesses(gridData: GuessData, storageKey: string) {
-  const { localStorage } = window;
-  if (!localStorage) {
-    return;
-  }
-
-  const guesses = serializeGuesses(gridData);
-
-  const saveData = {
-    date: Date.now(),
-    guesses,
-  };
-
-  localStorage.setItem(storageKey, JSON.stringify(saveData));
-}
-
-export function serializeGuesses(gridData: GuessData) {
-  const guesses = gridData.reduce<Record<string, string>>(
-    (memo, row, r) =>
-      row.reduce<Record<string, string>>((memoInner, cellData, c) => {
-        const { guess } = cellData as UsedCellData;
-        if (guess !== '') {
-          memoInner[`${r}_${c}`] = (cellData as UsedCellData).guess ?? '';
-        }
-        return memoInner;
-      }, memo),
-    {}
-  );
-
-  return guesses;
-}
-
 export function loadGuessesFromDB(
   gridData: GuessData,
   guessesFromDB: Array<{ row: number; col: number; guess: string }>
@@ -286,38 +234,7 @@ export function loadGuessesFromDB(
   });
 }
 
-export function loadGuesses(gridData: GuessData, storageKey: string) {
-  const { localStorage } = window;
-  if (!localStorage) {
-    return;
-  }
-
-  const saveRaw = localStorage.getItem(storageKey);
-  if (!saveRaw) {
-    return;
-  }
-
-  const saveData = JSON.parse(saveRaw);
-
-  // TODO: check date for expiration?
-  deserializeGuesses(gridData, saveData.guesses);
-}
-
-export function deserializeGuesses(
-  gridData: GuessData,
-  guesses: Record<string, string>
-) {
-  Object.entries(guesses).forEach(([key, val]) => {
-    const [rStr, cStr] = key.split('_');
-    const r = parseInt(rStr, 10);
-    const c = parseInt(cStr, 10);
-    // ignore any out-of-bounds guesses!
-    if (r <= gridData.length - 1 && c <= gridData[0].length - 1) {
-      (gridData[r][c] as UsedCellData).guess = val;
-    }
-  });
-}
-
+/*
 export function findCorrectAnswers(data: CluesInput, gridData: GuessData) {
   const correctAnswers: AnswerTuple[] = [];
 
@@ -343,3 +260,4 @@ export function findCorrectAnswers(data: CluesInput, gridData: GuessData) {
 
   return correctAnswers;
 }
+*/

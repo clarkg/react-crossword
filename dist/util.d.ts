@@ -1,4 +1,4 @@
-import type { AnswerTuple, CellData, CluesData, CluesInput, Direction, GridData } from './types';
+import type { CellData, CluesData, CluesInput, Direction, GridData } from './types';
 interface RowColMax {
     row: number;
     col: number;
@@ -30,15 +30,9 @@ export declare function byNumber(a: HasNumber, b: HasNumber): number;
 export type GuessData = ({
     guess?: string;
 } | CellData)[][];
-export declare function clearGuesses(storageKey: string): void;
-export declare function saveGuesses(gridData: GuessData, storageKey: string): void;
-export declare function serializeGuesses(gridData: GuessData): Record<string, string>;
 export declare function loadGuessesFromDB(gridData: GuessData, guessesFromDB: Array<{
     row: number;
     col: number;
     guess: string;
 }>): void;
-export declare function loadGuesses(gridData: GuessData, storageKey: string): void;
-export declare function deserializeGuesses(gridData: GuessData, guesses: Record<string, string>): void;
-export declare function findCorrectAnswers(data: CluesInput, gridData: GuessData): AnswerTuple[];
 export {};
