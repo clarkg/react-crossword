@@ -155,6 +155,7 @@ function CrosswordGrid({ theme }) {
     // needed ones that are missing.  (We create this in standard last-one-wins
     // order in Javascript, of course.)
     const finalTheme = (0, react_1.useMemo)(() => (Object.assign(Object.assign(Object.assign({}, defaultTheme), contextTheme), theme)), [contextTheme, theme]);
+    console.log('CrosswordGrid gridData', gridData);
     return ((0, jsx_runtime_1.jsx)(context_1.CrosswordSizeContext.Provider, Object.assign({ value: sizeContext }, { children: (0, jsx_runtime_1.jsx)(styled_components_1.ThemeProvider, Object.assign({ theme: finalTheme }, { children: (0, jsx_runtime_1.jsx)(GridWrapper, { children: (0, jsx_runtime_1.jsxs)("div", Object.assign({ style: { margin: 0, padding: 0, position: 'relative' } }, { children: [(0, jsx_runtime_1.jsxs)("svg", Object.assign({ viewBox: `0 0 ${width} ${height}` }, { children: [(0, jsx_runtime_1.jsx)("rect", { x: 0, y: 0, width: width, height: height, fill: finalTheme.gridBackground }), gridData.flatMap((rowData, row) => rowData.map((cellData, col) => cellData.used ? (
                                 // Should the Cell figure out its focus/highlight state
                                 // directly from the CrosswordContext?

@@ -180,6 +180,8 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
     [contextTheme, theme]
   );
 
+  console.log('CrosswordGrid gridData', gridData);
+
   return (
     <CrosswordSizeContext.Provider value={sizeContext}>
       <ThemeProvider theme={finalTheme}>
