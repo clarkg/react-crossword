@@ -17,7 +17,7 @@ export declare function createEmptyGridForClues(cluesInputData: CluesInput, allo
     gridData: GridData;
 };
 export declare function createCluesDataAndFillGridWithClues(gridData: GridData, cluesInputData: CluesInput): CluesData;
-export declare function createGridFilledWithCluesAndCluesData(cluesInputData: CluesInput, allowNonSquare?: boolean): {
+export declare function createGridFilledWithClues(cluesInputData: CluesInput, allowNonSquare?: boolean): {
     rows: number;
     cols: number;
     gridData: GridData;

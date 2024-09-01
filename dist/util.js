@@ -1,5 +1,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findCorrectAnswers = exports.deserializeGuesses = exports.loadGuesses = exports.loadGuessesFromDB = exports.serializeGuesses = exports.saveGuesses = exports.clearGuesses = exports.byNumber = exports.createGridFilledWithCluesAndCluesData = exports.createCluesDataAndFillGridWithClues = exports.createEmptyGridForClues = exports.fillClues = exports.transformCluesInputToCluesData = exports.transformCluesInputToCluesDataForDirection = exports.createEmptyGrid = exports.calculateExtents = exports.otherDirection = exports.isAcross = exports.bothDirections = void 0;
+exports.findCorrectAnswers = exports.deserializeGuesses = exports.loadGuesses = exports.loadGuessesFromDB = exports.serializeGuesses = exports.saveGuesses = exports.clearGuesses = exports.byNumber = exports.createGridFilledWithClues = exports.createCluesDataAndFillGridWithClues = exports.createEmptyGridForClues = exports.fillClues = exports.transformCluesInputToCluesData = exports.transformCluesInputToCluesDataForDirection = exports.createEmptyGrid = exports.calculateExtents = exports.otherDirection = exports.isAcross = exports.bothDirections = void 0;
 const directionInfo = {
     across: {
         primary: 'col',
@@ -141,12 +141,12 @@ function createCluesDataAndFillGridWithClues(gridData, cluesInputData) {
 exports.createCluesDataAndFillGridWithClues = createCluesDataAndFillGridWithClues;
 // Given the "nice format" for a crossword, generate the usable data optimized
 // for rendering and our interactivity.
-function createGridFilledWithCluesAndCluesData(cluesInputData, allowNonSquare) {
+function createGridFilledWithClues(cluesInputData, allowNonSquare) {
     const { rows, cols, gridData } = createEmptyGridForClues(cluesInputData, allowNonSquare);
     const clues = createCluesDataAndFillGridWithClues(gridData, cluesInputData);
     return { rows, cols, gridData, clues };
 }
-exports.createGridFilledWithCluesAndCluesData = createGridFilledWithCluesAndCluesData;
+exports.createGridFilledWithClues = createGridFilledWithClues;
 function byNumber(a, b) {
     const aNum = Number.parseInt(a.number, 10);
     const bNum = Number.parseInt(b.number, 10);

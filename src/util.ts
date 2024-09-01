@@ -199,7 +199,7 @@ export function createCluesDataAndFillGridWithClues(
 
 // Given the "nice format" for a crossword, generate the usable data optimized
 // for rendering and our interactivity.
-export function createGridFilledWithCluesAndCluesData(
+export function createGridFilledWithClues(
   cluesInputData: CluesInput,
   allowNonSquare?: boolean
 ) {
