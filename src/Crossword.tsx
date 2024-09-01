@@ -12,7 +12,6 @@ import CrosswordProvider, {
   crosswordProviderPropTypes,
 } from './CrosswordProvider';
 import CrosswordGrid from './CrosswordGrid';
-import DirectionClues from './DirectionClues';
 
 // interface OuterWrapperProps {
 //   correct?: boolean;
@@ -86,7 +85,7 @@ export type CrosswordImperative = CrosswordProviderImperative;
  * functionality.
  */
 const Crossword = React.forwardRef<CrosswordImperative, CrosswordProps>(
-  ({ acrossLabel, downLabel, ...props }, ref) => {
+  ({ ...props }, ref) => {
     const providerRef = useRef<CrosswordProviderImperative>(null);
 
     // expose some imperative methods
@@ -123,10 +122,7 @@ const Crossword = React.forwardRef<CrosswordImperative, CrosswordProps>(
     return (
       <CrosswordProvider {...props} ref={providerRef}>
         <CrosswordGrid gridData={providerRef.current!.getGridData()} />
-        <CluesWrapper>
-          <DirectionClues direction="across" label={acrossLabel} />
-          <DirectionClues direction="down" label={downLabel} />
-        </CluesWrapper>
+        <CluesWrapper />
       </CrosswordProvider>
     );
   }

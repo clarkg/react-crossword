@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Clue from './Clue';
-import type { Direction, EnhancedProps } from './types';
+import type { Direction, EnhancedProps, CluesData } from './types';
 
 const directionCluesPropTypes = {
   /** direction of this list of clues ("across" or "down") */
@@ -9,18 +9,25 @@ const directionCluesPropTypes = {
   /** a label to use instead of the (English) default */
   label: PropTypes.string,
 
-  clues: PropTypes.arrayOf(
-    PropTypes.shape({
-      number: PropTypes.string.isRequired,
-      clue: PropTypes.string.isRequired,
-      correct: PropTypes.bool,
-    })
-  ).isRequired,
+  clues: PropTypes.shape({
+    across: PropTypes.arrayOf(
+      PropTypes.shape({
+        number: PropTypes.string.isRequired,
+        clue: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    down: PropTypes.arrayOf(
+      PropTypes.shape({
+        number: PropTypes.string.isRequired,
+        clue: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
 };
 
 export type DirectionCluesProps = EnhancedProps<
   typeof directionCluesPropTypes,
-  { direction: Direction }
+  { direction: Direction; clues: CluesData }
 >;
 
 export default function DirectionClues({

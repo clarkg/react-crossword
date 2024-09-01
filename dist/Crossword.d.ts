@@ -16,7 +16,6 @@ declare const crosswordPropTypes: {
                 col: PropTypes.Validator<number>;
             }>>;
         }>;
-        /** the label for the "down" clues */
         down: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
                 clue: PropTypes.Validator<string>;
@@ -40,11 +39,7 @@ declare const crosswordPropTypes: {
     allowMutation: PropTypes.Requireable<boolean>;
     onCellChange: PropTypes.Requireable<(...args: any[]) => any>;
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
-    children: PropTypes.Requireable<PropTypes.ReactNodeLike>; /**
-     * Sets the “guess” character for a specific grid position.
-     *
-     * @since 4.1.0
-     */
+    children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
 };
 export type CrosswordProps = EnhancedProps<typeof crosswordPropTypes, Omit<CrosswordProviderProps, 'children'>>;
 export type CrosswordImperative = CrosswordProviderImperative;
@@ -67,7 +62,6 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
                 col: PropTypes.Validator<number>;
             }>>;
         }>;
-        /** the label for the "down" clues */
         down: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
                 clue: PropTypes.Validator<string>;
@@ -91,10 +85,6 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
     allowMutation: PropTypes.Requireable<boolean>;
     onCellChange: PropTypes.Requireable<(...args: any[]) => any>;
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
-    children: PropTypes.Requireable<PropTypes.ReactNodeLike>; /**
-     * Sets the “guess” character for a specific grid position.
-     *
-     * @since 4.1.0
-     */
+    children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
 }>, "theme" | "gridData" | "cluesInputData" | "allowMutation" | "onCellChange" | "onClueSelected" | "onGridChange" | "numRows" | "numCols"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
 export default Crossword;

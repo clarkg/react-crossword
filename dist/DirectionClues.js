@@ -10,11 +10,16 @@ const directionCluesPropTypes = {
     direction: prop_types_1.default.string.isRequired,
     /** a label to use instead of the (English) default */
     label: prop_types_1.default.string,
-    clues: prop_types_1.default.arrayOf(prop_types_1.default.shape({
-        number: prop_types_1.default.string.isRequired,
-        clue: prop_types_1.default.string.isRequired,
-        correct: prop_types_1.default.bool,
-    })).isRequired,
+    clues: prop_types_1.default.shape({
+        across: prop_types_1.default.arrayOf(prop_types_1.default.shape({
+            number: prop_types_1.default.string.isRequired,
+            clue: prop_types_1.default.string.isRequired,
+        })).isRequired,
+        down: prop_types_1.default.arrayOf(prop_types_1.default.shape({
+            number: prop_types_1.default.string.isRequired,
+            clue: prop_types_1.default.string.isRequired,
+        })).isRequired,
+    }).isRequired,
 };
 function DirectionClues({ direction, label, clues, }) {
     return ((0, jsx_runtime_1.jsxs)("div", Object.assign({ className: "direction" }, { children: [(0, jsx_runtime_1.jsx)("h3", Object.assign({ className: "header" }, { children: label || direction.toUpperCase() })), clues === null || clues === void 0 ? void 0 : clues[direction].map(({ number, clue }) => ((0, jsx_runtime_1.jsx)(Clue_1.default, Object.assign({ direction: direction, number: number }, { children: clue }), number)))] })));

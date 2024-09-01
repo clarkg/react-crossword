@@ -43,7 +43,6 @@ const prop_types_1 = __importDefault(require("prop-types"));
 const styled_components_1 = __importDefault(require("styled-components"));
 const CrosswordProvider_1 = __importStar(require("./CrosswordProvider"));
 const CrosswordGrid_1 = __importDefault(require("./CrosswordGrid"));
-const DirectionClues_1 = __importDefault(require("./DirectionClues"));
 // interface OuterWrapperProps {
 //   correct?: boolean;
 // }
@@ -98,7 +97,7 @@ delete crosswordPropTypes.children;
  * functionality.
  */
 const Crossword = react_1.default.forwardRef((_a, ref) => {
-    var { acrossLabel, downLabel } = _a, props = __rest(_a, ["acrossLabel", "downLabel"]);
+    var props = __rest(_a, []);
     const providerRef = (0, react_1.useRef)(null);
     // expose some imperative methods
     (0, react_1.useImperativeHandle)(ref, () => ({
@@ -122,7 +121,7 @@ const Crossword = react_1.default.forwardRef((_a, ref) => {
          */
         getGridData: () => providerRef.current.getGridData(),
     }), [providerRef]);
-    return ((0, jsx_runtime_1.jsxs)(CrosswordProvider_1.default, Object.assign({}, props, { ref: providerRef }, { children: [(0, jsx_runtime_1.jsx)(CrosswordGrid_1.default, { gridData: providerRef.current.getGridData() }), (0, jsx_runtime_1.jsxs)(CluesWrapper, { children: [(0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "across", label: acrossLabel }), (0, jsx_runtime_1.jsx)(DirectionClues_1.default, { direction: "down", label: downLabel })] })] })));
+    return ((0, jsx_runtime_1.jsxs)(CrosswordProvider_1.default, Object.assign({}, props, { ref: providerRef }, { children: [(0, jsx_runtime_1.jsx)(CrosswordGrid_1.default, { gridData: providerRef.current.getGridData() }), (0, jsx_runtime_1.jsx)(CluesWrapper, {})] })));
 });
 Crossword.displayName = 'Crossword';
 // @ts-expect-error idk
