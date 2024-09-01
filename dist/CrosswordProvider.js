@@ -337,7 +337,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ cluesInputData, theme, o
             }
         }
         if (!clues) {
-            throw new Error('Expected clues to be defined');
+            return;
         }
         // Find the element with the lowest number in the 2D array gridData
         let lowestNumberCell = null;
