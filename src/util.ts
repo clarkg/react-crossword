@@ -163,7 +163,7 @@ export function fillClues(
   transformCluesInputToCluesDataForDirection(cluesInputData, direction, clues);
 }
 
-export function createGridData(
+export function createEmptyGridForClues(
   cluesInputData: CluesInput,
   allowNonSquare?: boolean
 ) {
@@ -182,7 +182,7 @@ export function createGridData(
   return { rows, cols, gridData: createEmptyGrid(rows, cols) };
 }
 
-export function createCluesData(
+export function createCluesDataAndFillGridWithClues(
   gridData: GridData,
   cluesInputData: CluesInput
 ) {
@@ -199,15 +199,15 @@ export function createCluesData(
 
 // Given the "nice format" for a crossword, generate the usable data optimized
 // for rendering and our interactivity.
-export function createGridAndCluesData(
+export function createGridFilledWithCluesAndCluesData(
   cluesInputData: CluesInput,
   allowNonSquare?: boolean
 ) {
-  const { rows, cols, gridData } = createGridData(
+  const { rows, cols, gridData } = createEmptyGridForClues(
     cluesInputData,
     allowNonSquare
   );
-  const clues = createCluesData(gridData, cluesInputData);
+  const clues = createCluesDataAndFillGridWithClues(gridData, cluesInputData);
   return { rows, cols, gridData, clues };
 }
 

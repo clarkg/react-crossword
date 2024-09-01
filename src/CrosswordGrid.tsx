@@ -1,11 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  // useImperativeHandle,
-  useMemo,
-  useRef,
-} from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 
 import styled, { ThemeContext, ThemeProvider } from 'styled-components';
@@ -14,9 +7,6 @@ import Cell from './Cell';
 
 import { CrosswordContext, CrosswordSizeContext } from './context';
 import { FocusHandler, GridData } from './types';
-
-// import {
-// } from './types';
 
 const defaultTheme = {
   columnBreakpoint: '768px',
@@ -69,13 +59,6 @@ const CrosswordGridPropTypes = {
 export type CrosswordGridProps = InferProps<typeof CrosswordGridPropTypes> & {
   gridData: GridData;
 };
-
-// export interface CrosswordGridImperative {
-//   /**
-//    * Sets focus to the crossword component.
-//    */
-//   focus: () => void;
-// }
 
 /**
  * The rendering component for the crossword grid itself.

@@ -31,8 +31,6 @@ const prop_types_1 = __importDefault(require("prop-types"));
 const styled_components_1 = __importStar(require("styled-components"));
 const Cell_1 = __importDefault(require("./Cell"));
 const context_1 = require("./context");
-// import {
-// } from './types';
 const defaultTheme = {
     columnBreakpoint: '768px',
     gridBackground: 'rgb(0,0,0)',
@@ -77,12 +75,6 @@ const CrosswordGridPropTypes = {
         highlightBackground: prop_types_1.default.string,
     }),
 };
-// export interface CrosswordGridImperative {
-//   /**
-//    * Sets focus to the crossword component.
-//    */
-//   focus: () => void;
-// }
 /**
  * The rendering component for the crossword grid itself.
  */

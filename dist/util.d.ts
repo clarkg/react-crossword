@@ -11,13 +11,13 @@ export declare function createEmptyGrid(rows: number, cols: number): GridData;
 export declare function transformCluesInputToCluesDataForDirection(cluesInputData: CluesInput, direction: Direction, clues: CluesData): void;
 export declare function transformCluesInputToCluesData(cluesInputData: CluesInput): CluesData;
 export declare function fillClues(gridData: GridData, clues: CluesData, cluesInputData: CluesInput, direction: Direction): void;
-export declare function createGridData(cluesInputData: CluesInput, allowNonSquare?: boolean): {
+export declare function createEmptyGridForClues(cluesInputData: CluesInput, allowNonSquare?: boolean): {
     rows: number;
     cols: number;
     gridData: GridData;
 };
-export declare function createCluesData(gridData: GridData, cluesInputData: CluesInput): CluesData;
-export declare function createGridAndCluesData(cluesInputData: CluesInput, allowNonSquare?: boolean): {
+export declare function createCluesDataAndFillGridWithClues(gridData: GridData, cluesInputData: CluesInput): CluesData;
+export declare function createGridFilledWithCluesAndCluesData(cluesInputData: CluesInput, allowNonSquare?: boolean): {
     rows: number;
     cols: number;
     gridData: GridData;
