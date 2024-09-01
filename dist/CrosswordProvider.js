@@ -41,7 +41,7 @@ exports.crosswordProviderPropTypes = {
      * href="#/Configuration%20and%20customization/Clue%20input%20format">Clue
      * input format</a> for details.
      */
-    data: types_1.cluesInputShapeOriginal.isRequired,
+    cluesInputData: types_1.cluesInputShapeOriginal.isRequired,
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: prop_types_1.default.shape({
         /**
@@ -103,7 +103,7 @@ const defaultTheme = {
  *
  * @since 4.0
  */
-const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChange, onGridChange, onClueSelected, allowMutation, children, guessesFromDB, }, ref) => {
+const CrosswordProvider = react_1.default.forwardRef(({ cluesInputData, theme, onCellChange, onGridChange, onClueSelected, allowMutation, children, gridData, numRows, numCols, }, ref) => {
     const contextTheme = (0, react_1.useContext)(styled_components_1.ThemeContext);
     // The final theme is the merger of three values: the "theme" property
     // passed to the component (which takes precedence), any values from
@@ -111,10 +111,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
     // needed ones that are missing.  (We create this in standard last-one-wins
     // order in Javascript, of course.)
     const finalTheme = (0, react_1.useMemo)(() => (Object.assign(Object.assign(Object.assign({}, defaultTheme), contextTheme), theme)), [contextTheme, theme]);
-    const [gridData, setGridData] = (0, react_1.useState)([]);
     const [clues, setClues] = (0, react_1.useState)();
-    const [rows, setRows] = (0, react_1.useState)(0);
-    const [cols, setCols] = (0, react_1.useState)(0);
     // We can't seem to use state to track the registeredFocusHandler, because
     // there seems to be a delay in 'focus' being usable after it's set.  We use
     // a Ref instead.
@@ -130,12 +127,12 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
     // This *internal* getCellData assumes that it's only ever asked for a valid
     // cell (one that's used).
     const getCellData = (0, react_1.useCallback)((row, col) => {
-        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+        if (row >= 0 && row < numRows && col >= 0 && col < numCols) {
             return gridData[row][col];
         }
         // fake cellData to represent "out of bounds"
         return { row, col, used: false, outOfBounds: true };
-    }, [cols, gridData, rows]);
+    }, [numCols, gridData, numRows]);
     const setCellCharacter = (0, react_1.useCallback)((row, col, char) => {
         const cell = getCellData(row, col);
         if (!cell.used) {
@@ -145,13 +142,6 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         if (cell.guess === char) {
             return;
         }
-        /*
-        setGridData(
-          produce((draft) => {
-            (draft[row][col] as UsedCellData).guess = char;
-          })
-        );
-        */
         if (onCellChange) {
             onCellChange(row, col, char);
         }
@@ -275,7 +265,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             case 'Home':
             case 'End': {
                 // move to beginning/end of this entry?
-                const info = data[currentDirection][currentNumber];
+                const info = cluesInputData[currentDirection][currentNumber];
                 const { answer: { length }, } = info;
                 let { row, col } = info;
                 if (key === 'End') {
@@ -313,7 +303,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         focusedCol,
         setCellCharacter,
         moveBackward,
-        data,
+        cluesInputData,
         currentNumber,
         moveTo,
         allowMutation,
@@ -331,27 +321,29 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         handleSingleCharacter(bulkChange[0]);
         setBulkChange(bulkChange.length === 1 ? null : bulkChange.substring(1));
     }, [bulkChange, handleSingleCharacter]);
-    // Memoize the result of createGridData
-    const gridInfo = (0, react_1.useMemo)(() => { var _a; return (0, util_1.createGridData)(data, (_a = finalTheme.allowNonSquare) !== null && _a !== void 0 ? _a : false); }, [data, finalTheme.allowNonSquare]);
     // When the clues *input* data changes, reset/reload the player data
     (0, react_1.useEffect)(() => {
-        const { rows: numRows, cols: numCols, gridData: masterGridData, clues: masterClues, } = gridInfo;
-        if (guessesFromDB && guessesFromDB.length > 0) {
-            (0, util_1.loadGuessesFromDB)(masterGridData, guessesFromDB);
-        }
-        setRows(numRows);
-        setCols(numCols);
-        setGridData(masterGridData);
-        setClues(masterClues);
-    }, [gridInfo, guessesFromDB]);
+        setClues((0, util_1.transformCluesInputToCluesData)(cluesInputData));
+    }, [cluesInputData]);
     // Separate effect to handle focus and lowest number cell logic
     (0, react_1.useEffect)(() => {
-        const { gridData: masterGridData, clues: masterClues } = gridInfo;
-        // Find the element with the lowest number in the 2D array masterGridData
+        // Assert that the 2D array gridData has dimensions numRows and numCols
+        if (gridData.length !== numRows) {
+            throw new Error(`Expected gridData to have ${numRows} rows, but got ${gridData.length}`);
+        }
+        for (let row = 0; row < numRows; row++) {
+            if (gridData[row].length !== numCols) {
+                throw new Error(`Expected gridData[${row}] to have ${numCols} columns, but got ${gridData[row].length}`);
+            }
+        }
+        if (!clues) {
+            throw new Error('Expected clues to be defined');
+        }
+        // Find the element with the lowest number in the 2D array gridData
         let lowestNumberCell = null;
-        for (let row = 0; row < masterGridData.length; row++) {
-            for (let col = 0; col < masterGridData[row].length; col++) {
-                const cell = masterGridData[row][col];
+        for (let row = 0; row < numRows; row++) {
+            for (let col = 0; col < numCols; col++) {
+                const cell = gridData[row][col];
                 if (cell.used && cell.number) {
                     if (!lowestNumberCell ||
                         parseInt(cell.number, 10) < parseInt(lowestNumberCell.number, 10)) {
@@ -369,13 +361,13 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             let lowestNumberDirection = 'across';
             const lowestNumber = lowestNumberCell.number;
             // Check across clues first
-            const acrossClue = masterClues.across.find((clue) => clue.number === lowestNumber);
+            const acrossClue = clues.across.find((clue) => clue.number === lowestNumber);
             if (acrossClue) {
                 lowestNumberDirection = 'across';
             }
             else {
                 // If not found in across, check down clues
-                const downClue = masterClues.down.find((clue) => clue.number === lowestNumber);
+                const downClue = clues.down.find((clue) => clue.number === lowestNumber);
                 if (downClue) {
                     lowestNumberDirection = 'down';
                 }
@@ -384,7 +376,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
             setCurrentDirection(lowestNumberDirection);
             focus();
         }
-    }, [gridInfo]);
+    }, [clues]);
     const handleCellClick = (0, react_1.useCallback)((cellData) => {
         var _a;
         if (cellData.used) {
@@ -463,15 +455,6 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
          * also any persisted data.
          */
         reset: () => {
-            setGridData((0, immer_1.default)((draft) => {
-                draft.forEach((rowData) => {
-                    rowData.forEach((cellData) => {
-                        if (cellData.used) {
-                            cellData.guess = '';
-                        }
-                    });
-                });
-            }));
             setClues((0, immer_1.default)((draft) => {
                 util_1.bothDirections.forEach((direction) => {
                     var _a;
@@ -494,8 +477,8 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         getGridData: () => gridData,
     }), [clues, focus, setCellCharacter, gridData]);
     const crosswordContext = (0, react_1.useMemo)(() => ({
-        rows,
-        cols,
+        numRows,
+        numCols,
         gridData,
         clues,
         handleInputKeyDown,
@@ -509,8 +492,8 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onCellChang
         selectedDirection: currentDirection,
         selectedNumber: currentNumber,
     }), [
-        rows,
-        cols,
+        numRows,
+        numCols,
         gridData,
         clues,
         handleInputKeyDown,

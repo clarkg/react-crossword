@@ -7,7 +7,7 @@ declare const crosswordPropTypes: {
     acrossLabel: PropTypes.Requireable<string>;
     /** the label for the "down" clues */
     downLabel: PropTypes.Requireable<string>;
-    data: PropTypes.Validator<NonNullable<PropTypes.InferProps<{
+    cluesInputData: PropTypes.Validator<NonNullable<PropTypes.InferProps<{
         across: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
                 clue: PropTypes.Validator<string>;
@@ -30,7 +30,6 @@ declare const crosswordPropTypes: {
         allowNonSquare: PropTypes.Requireable<boolean>;
         columnBreakpoint: PropTypes.Requireable<string>;
         gridBackground: PropTypes.Requireable<string>;
-        /** the label for the "down" clues */
         cellBackground: PropTypes.Requireable<string>;
         cellBorder: PropTypes.Requireable<string>;
         textColor: PropTypes.Requireable<string>;
@@ -41,7 +40,11 @@ declare const crosswordPropTypes: {
     allowMutation: PropTypes.Requireable<boolean>;
     onCellChange: PropTypes.Requireable<(...args: any[]) => any>;
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
-    children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
+    children: PropTypes.Requireable<PropTypes.ReactNodeLike>; /**
+     * Sets the “guess” character for a specific grid position.
+     *
+     * @since 4.1.0
+     */
 };
 export type CrosswordProps = EnhancedProps<typeof crosswordPropTypes, Omit<CrosswordProviderProps, 'children'>>;
 export type CrosswordImperative = CrosswordProviderImperative;
@@ -55,7 +58,7 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
     acrossLabel: PropTypes.Requireable<string>;
     /** the label for the "down" clues */
     downLabel: PropTypes.Requireable<string>;
-    data: PropTypes.Validator<NonNullable<PropTypes.InferProps<{
+    cluesInputData: PropTypes.Validator<NonNullable<PropTypes.InferProps<{
         across: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
                 clue: PropTypes.Validator<string>;
@@ -78,7 +81,6 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
         allowNonSquare: PropTypes.Requireable<boolean>;
         columnBreakpoint: PropTypes.Requireable<string>;
         gridBackground: PropTypes.Requireable<string>;
-        /** the label for the "down" clues */
         cellBackground: PropTypes.Requireable<string>;
         cellBorder: PropTypes.Requireable<string>;
         textColor: PropTypes.Requireable<string>;
@@ -89,6 +91,10 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
     allowMutation: PropTypes.Requireable<boolean>;
     onCellChange: PropTypes.Requireable<(...args: any[]) => any>;
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
-    children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
-}>, "data" | "theme" | "allowMutation" | "onCellChange" | "onClueSelected" | "guessesFromDB" | "onGridChange"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
+    children: PropTypes.Requireable<PropTypes.ReactNodeLike>; /**
+     * Sets the “guess” character for a specific grid position.
+     *
+     * @since 4.1.0
+     */
+}>, "theme" | "gridData" | "cluesInputData" | "allowMutation" | "onCellChange" | "onClueSelected" | "onGridChange" | "numRows" | "numCols"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
 export default Crossword;

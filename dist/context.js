@@ -13,8 +13,8 @@ function nop() { }
  * core implementation.
  */
 exports.CrosswordContext = react_1.default.createContext({
-    rows: 0,
-    cols: 0,
+    numRows: 0,
+    numCols: 0,
     gridData: [],
     // clues: { across: [], down: [] },
     handleInputKeyDown: nop,

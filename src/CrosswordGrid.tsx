@@ -78,8 +78,8 @@ export type CrosswordGridProps = InferProps<typeof CrosswordGridPropTypes>;
  */
 export default function CrosswordGrid({ theme }: CrosswordGridProps) {
   const {
-    rows,
-    cols,
+    numRows,
+    numCols,
     gridData,
     handleInputKeyDown,
     handleInputChange,
@@ -137,10 +137,10 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
     [cellSize, cellPadding, cellInner, cellHalf, fontSize]
   );
 
-  const height = useMemo(() => rows * cellSize, [rows]);
-  const width = useMemo(() => cols * cellSize, [cols]);
-  const cellWidthHtmlPct = useMemo(() => 100 / cols, [cols]);
-  const cellHeightHtmlPct = useMemo(() => 100 / rows, [rows]);
+  const height = useMemo(() => numRows * cellSize, [numRows]);
+  const width = useMemo(() => numCols * cellSize, [numCols]);
+  const cellWidthHtmlPct = useMemo(() => 100 / numCols, [numCols]);
+  const cellHeightHtmlPct = useMemo(() => 100 / numRows, [numRows]);
 
   // In order to ensure the top/left positioning makes sense, there is an
   // absolutely-positioned <div> with no margin/padding that we *don't* expose

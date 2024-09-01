@@ -8,8 +8,16 @@ export declare function isAcross(direction: Direction): boolean;
 export declare function otherDirection(direction: Direction): "across" | "down";
 export declare function calculateExtents(data: CluesInput, direction: Direction): RowColMax;
 export declare function createEmptyGrid(rows: number, cols: number): GridData;
-export declare function fillClues(gridData: GridData, clues: CluesData, data: CluesInput, direction: Direction): void;
-export declare function createGridData(data: CluesInput, allowNonSquare?: boolean): {
+export declare function transformCluesInputToCluesDataForDirection(cluesInputData: CluesInput, direction: Direction, clues: CluesData): void;
+export declare function transformCluesInputToCluesData(cluesInputData: CluesInput): CluesData;
+export declare function fillClues(gridData: GridData, clues: CluesData, cluesInputData: CluesInput, direction: Direction): void;
+export declare function createGridData(cluesInputData: CluesInput, allowNonSquare?: boolean): {
+    rows: number;
+    cols: number;
+    gridData: GridData;
+};
+export declare function createCluesData(gridData: GridData, cluesInputData: CluesInput): CluesData;
+export declare function createGridAndCluesData(cluesInputData: CluesInput, allowNonSquare?: boolean): {
     rows: number;
     cols: number;
     gridData: GridData;

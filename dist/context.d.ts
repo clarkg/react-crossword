@@ -8,9 +8,9 @@ import type { CellData, CluesData, Direction, FocusHandler, GridData, GridPositi
  */
 export interface CrosswordContextType {
     /** The number of rows in the crossword. */
-    rows: number;
+    numRows: number;
     /** The number of columns in the crossword. */
-    cols: number;
+    numCols: number;
     /** The crossword grid data, including player guesses and "correct" status. */
     gridData: GridData;
     /** The across/down clues, including "correct" status. */

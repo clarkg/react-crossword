@@ -85,7 +85,7 @@ const CrosswordGridPropTypes = {
  * The rendering component for the crossword grid itself.
  */
 function CrosswordGrid({ theme }) {
-    const { rows, cols, gridData, handleInputKeyDown, handleInputChange, handleCellClick, handleInputClick, registerFocusHandler, focused, selectedPosition: { row: focusedRow, col: focusedCol }, selectedDirection: currentDirection, selectedNumber: currentNumber, } = (0, react_1.useContext)(context_1.CrosswordContext);
+    const { numRows, numCols, gridData, handleInputKeyDown, handleInputChange, handleCellClick, handleInputClick, registerFocusHandler, focused, selectedPosition: { row: focusedRow, col: focusedCol }, selectedDirection: currentDirection, selectedNumber: currentNumber, } = (0, react_1.useContext)(context_1.CrosswordContext);
     const inputRef = (0, react_1.useRef)(null);
     const contextTheme = (0, react_1.useContext)(styled_components_1.ThemeContext);
     // focus and movement
@@ -122,10 +122,10 @@ function CrosswordGrid({ theme }) {
         cellHalf,
         fontSize,
     }), [cellSize, cellPadding, cellInner, cellHalf, fontSize]);
-    const height = (0, react_1.useMemo)(() => rows * cellSize, [rows]);
-    const width = (0, react_1.useMemo)(() => cols * cellSize, [cols]);
-    const cellWidthHtmlPct = (0, react_1.useMemo)(() => 100 / cols, [cols]);
-    const cellHeightHtmlPct = (0, react_1.useMemo)(() => 100 / rows, [rows]);
+    const height = (0, react_1.useMemo)(() => numRows * cellSize, [numRows]);
+    const width = (0, react_1.useMemo)(() => numCols * cellSize, [numCols]);
+    const cellWidthHtmlPct = (0, react_1.useMemo)(() => 100 / numCols, [numCols]);
+    const cellHeightHtmlPct = (0, react_1.useMemo)(() => 100 / numRows, [numRows]);
     // In order to ensure the top/left positioning makes sense, there is an
     // absolutely-positioned <div> with no margin/padding that we *don't* expose
     // to consumers.  This keeps the math much more reliable.  (But we're still

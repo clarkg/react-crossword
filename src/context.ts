@@ -17,9 +17,9 @@ import type {
  */
 export interface CrosswordContextType {
   /** The number of rows in the crossword. */
-  rows: number;
+  numRows: number;
   /** The number of columns in the crossword. */
-  cols: number;
+  numCols: number;
   /** The crossword grid data, including player guesses and "correct" status. */
   gridData: GridData;
   /** The across/down clues, including "correct" status. */
@@ -55,8 +55,8 @@ function nop() {}
  * core implementation.
  */
 export const CrosswordContext = React.createContext<CrosswordContextType>({
-  rows: 0,
-  cols: 0,
+  numRows: 0,
+  numCols: 0,
   gridData: [],
   // clues: { across: [], down: [] },
 

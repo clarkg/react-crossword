@@ -97,16 +97,52 @@ export function createEmptyGrid(rows: number, cols: number) {
   return gridData;
 }
 
+export function transformCluesInputToCluesDataForDirection(
+  cluesInputData: CluesInput,
+  direction: Direction,
+  clues: CluesData
+) {
+  Object.entries(cluesInputData[direction]).forEach(([number, info]) => {
+    const { row: rowStart, col: colStart, clue, answer } = info;
+    clues[direction].push({
+      number,
+      clue,
+      answer,
+      col: colStart,
+      row: rowStart,
+    });
+  });
+
+  clues[direction].sort(byNumber);
+}
+
+export function transformCluesInputToCluesData(cluesInputData: CluesInput) {
+  const clues: CluesData = {
+    across: [],
+    down: [],
+  };
+
+  (['across', 'down'] as Direction[]).forEach((direction) => {
+    transformCluesInputToCluesDataForDirection(
+      cluesInputData,
+      direction,
+      clues
+    );
+  });
+
+  return clues;
+}
+
 export function fillClues(
   gridData: GridData,
   clues: CluesData,
-  data: CluesInput,
+  cluesInputData: CluesInput,
   direction: Direction
 ) {
   const dir = directionInfo[direction];
 
-  Object.entries(data[direction]).forEach(([number, info]) => {
-    const { row: rowStart, col: colStart, clue, answer } = info;
+  Object.entries(cluesInputData[direction]).forEach(([number, info]) => {
+    const { row: rowStart, col: colStart, answer } = info;
     for (let i = 0; i < answer.length; i++) {
       const row = rowStart + (dir.primary === 'row' ? i : 0);
       const col = colStart + (dir.primary === 'col' ? i : 0);
@@ -122,24 +158,17 @@ export function fillClues(
         cellData.number = number;
       }
     }
-
-    clues[direction].push({
-      number,
-      clue,
-      answer,
-      col: colStart,
-      row: rowStart,
-    });
   });
 
-  clues[direction].sort(byNumber);
+  transformCluesInputToCluesDataForDirection(cluesInputData, direction, clues);
 }
 
-// Given the "nice format" for a crossword, generate the usable data optimized
-// for rendering and our interactivity.
-export function createGridData(data: CluesInput, allowNonSquare?: boolean) {
-  const acrossMax = calculateExtents(data, 'across');
-  const downMax = calculateExtents(data, 'down');
+export function createGridData(
+  cluesInputData: CluesInput,
+  allowNonSquare?: boolean
+) {
+  const acrossMax = calculateExtents(cluesInputData, 'across');
+  const downMax = calculateExtents(cluesInputData, 'down');
 
   let rows = Math.max(acrossMax.row, downMax.row) + 1;
   let cols = Math.max(acrossMax.col, downMax.col) + 1;
@@ -150,17 +179,35 @@ export function createGridData(data: CluesInput, allowNonSquare?: boolean) {
     cols = size;
   }
 
-  const gridData = createEmptyGrid(rows, cols);
+  return { rows, cols, gridData: createEmptyGrid(rows, cols) };
+}
 
-  // Now fill with answers... and also collect the clues
+export function createCluesData(
+  gridData: GridData,
+  cluesInputData: CluesInput
+) {
   const clues: CluesData = {
     across: [],
     down: [],
   };
 
-  fillClues(gridData, clues, data, 'across');
-  fillClues(gridData, clues, data, 'down');
+  fillClues(gridData, clues, cluesInputData, 'across');
+  fillClues(gridData, clues, cluesInputData, 'down');
 
+  return clues;
+}
+
+// Given the "nice format" for a crossword, generate the usable data optimized
+// for rendering and our interactivity.
+export function createGridAndCluesData(
+  cluesInputData: CluesInput,
+  allowNonSquare?: boolean
+) {
+  const { rows, cols, gridData } = createGridData(
+    cluesInputData,
+    allowNonSquare
+  );
+  const clues = createCluesData(gridData, cluesInputData);
   return { rows, cols, gridData, clues };
 }
 

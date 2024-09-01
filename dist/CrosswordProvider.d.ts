@@ -7,19 +7,18 @@ export declare const crosswordProviderPropTypes: {
      * href="#/Configuration%20and%20customization/Clue%20input%20format">Clue
      * input format</a> for details.
      */
-    data: PropTypes.Validator<NonNullable<PropTypes.InferProps<{
+    cluesInputData: PropTypes.Validator<NonNullable<PropTypes.InferProps<{
         across: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
-                clue: PropTypes.Validator<string>;
+                clue: PropTypes.Validator<string>; /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
                 answer: PropTypes.Validator<string>;
                 row: PropTypes.Validator<number>;
                 col: PropTypes.Validator<number>;
             }>>;
         }>;
-        /**  background for an answer cell */
         down: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
-                clue: PropTypes.Validator<string>;
+                clue: PropTypes.Validator<string>; /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
                 answer: PropTypes.Validator<string>;
                 row: PropTypes.Validator<number>;
                 col: PropTypes.Validator<number>;
@@ -74,12 +73,7 @@ export type CrosswordProviderProps = EnhancedProps<typeof crosswordProviderPropT
      * href="#/Configuration%20and%20customization/Clue%20input%20format">Clue
      * input format</a> for details.
      */
-    data: CluesInput;
-    guessesFromDB?: Array<{
-        row: number;
-        col: number;
-        guess: string;
-    }>;
+    cluesInputData: CluesInput;
     /**
      * callback function called when a cell changes (e.g. when the user types a
      * letter); called with `(row, col, char)` arguments, where the `row` and
@@ -92,6 +86,9 @@ export type CrosswordProviderProps = EnhancedProps<typeof crosswordProviderPropT
      * callback function called when a clue is selected
      */
     onClueSelected?: (direction: Direction, number: string) => void;
+    gridData: GridData;
+    numRows: number;
+    numCols: number;
 }>;
 export interface CrosswordProviderImperative {
     /**
@@ -125,19 +122,18 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
      * href="#/Configuration%20and%20customization/Clue%20input%20format">Clue
      * input format</a> for details.
      */
-    data: PropTypes.Validator<NonNullable<PropTypes.InferProps<{
+    cluesInputData: PropTypes.Validator<NonNullable<PropTypes.InferProps<{
         across: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
-                clue: PropTypes.Validator<string>;
+                clue: PropTypes.Validator<string>; /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
                 answer: PropTypes.Validator<string>;
                 row: PropTypes.Validator<number>;
                 col: PropTypes.Validator<number>;
             }>>;
         }>;
-        /**  background for an answer cell */
         down: PropTypes.Validator<{
             [x: string]: NonNullable<PropTypes.InferProps<{
-                clue: PropTypes.Validator<string>;
+                clue: PropTypes.Validator<string>; /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
                 answer: PropTypes.Validator<string>;
                 row: PropTypes.Validator<number>;
                 col: PropTypes.Validator<number>;
@@ -185,18 +181,13 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
      */
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
     children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
-}>, "data" | "onCellChange" | "onClueSelected" | "guessesFromDB" | "onGridChange"> & {
+}>, "gridData" | "cluesInputData" | "onCellChange" | "onClueSelected" | "onGridChange" | "numRows" | "numCols"> & {
     /**
      * clue/answer data; see <a
      * href="#/Configuration%20and%20customization/Clue%20input%20format">Clue
      * input format</a> for details.
      */
-    data: CluesInput;
-    guessesFromDB?: Array<{
-        row: number;
-        col: number;
-        guess: string;
-    }>;
+    cluesInputData: CluesInput;
     /**
      * callback function called when a cell changes (e.g. when the user types a
      * letter); called with `(row, col, char)` arguments, where the `row` and
@@ -209,5 +200,8 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
      * callback function called when a clue is selected
      */
     onClueSelected?: (direction: Direction, number: string) => void;
+    gridData: GridData;
+    numRows: number;
+    numCols: number;
 } & React.RefAttributes<CrosswordProviderImperative>>;
 export default CrosswordProvider;
